@@ -1,7 +1,8 @@
-# gguf_modeldb a.k.a ModelDB
+# gguf_modeldb 
+
 This package is a quick and optimized solution to manage llama based gguf quantized models,
 download gguf files, retreive messege formatting, add more models from hf repos and more.
-It's super easy to use and comes prepacked with the best open source models including:
+It's super easy to use via it's main `ModelDB` smart class and comes prepacked with the best open source models including:
 dolphin phi-2 2.7b, mistral 7b v0.2, mixtral 8x7b v0.1, solar 10.7b and zephyr 3b
 with all their available quantizations (from q2_k to q8_0)
 and with correct assistant, user and system message tags configured.
@@ -33,6 +34,17 @@ print(f"""
         Keywords: {mdt.keywords}
         Is downloaded: {mdt.is_downloaded()}
     """)
+#outputs:
+    # Model Name: dolphin-2_6-phi-2
+    # Model Quantization: Q2_K
+    # Model Path: C:\Users\laelal.halawani\Desktop\python\test_glai\dolphin-phi2\dolphin-2_6-phi-2.Q2_K.gguf    
+    # Model message formattings:
+    #     System: {'open': '<|im_start|>system\n', 'close': '<|im_end|>\n'}
+    #     User: {'open': '<|im_start|>user\n', 'close': '<|im_end|>\n'}
+    #     AI: {'open': '<|im_start|>assistant', 'close': '<|im_end|>\n'}
+    # Description: Dolphin 2.6 phi 2 GGUF
+    # Keywords: ['dolphin', 'phi2', 'uncesored', '2.7B']
+    # Is downloaded: False #unlsess you downloaded it already
 
 #if you want you can easily download the model
 model_data.download_gguf()
