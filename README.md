@@ -7,6 +7,7 @@ with all their available quantizations (from q2_k to q8_0)
 and with correct assistant, user and system message tags configured.
 
 ## Get started
+
 ### Installation
 The package is available on PyPI
 ```bash
@@ -42,7 +43,8 @@ gguf_path = model_data.model_path()
 #without the need to separately download and configure them, you download each model only once 
 #when you try to use that specific version of the model for the first time
 ```
-
+### API documentation
+Detailed api documentation available at https://laelhalawani.github.io/gguf_modeldb
 # Examples
 Below you will find some more examples from examples.py in the model repository.
 
