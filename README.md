@@ -37,7 +37,7 @@ print(f"""
 #outputs:
     # Model Name: dolphin-2_6-phi-2
     # Model Quantization: Q2_K
-    # Model Path: C:\Users\laelal.halawani\Desktop\python\test_glai\dolphin-phi2\dolphin-2_6-phi-2.Q2_K.gguf    
+    # Model Path: your_db_dir_path\dolphin-2_6-phi-2.Q2_K.gguf    
     # Model message formattings:
     #     System: {'open': '<|im_start|>system\n', 'close': '<|im_end|>\n'}
     #     User: {'open': '<|im_start|>user\n', 'close': '<|im_end|>\n'}

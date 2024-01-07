@@ -4,7 +4,7 @@ with open("./README.md", "r") as fh:
     long_description = fh.read()
 setup(
     name="gguf_modeldb",
-    version="0.0.1a1",
+    version="0.0.1a2",
     packages=find_packages(),
     install_requires=[
         'requests>=2.31.0',
