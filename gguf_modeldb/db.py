@@ -36,14 +36,14 @@ class ModelDB:
         if model_db_dir != VERIFIED_MODELS_DB_DIR:
             if copy_verified_models:
                 print(f"Copying examples to {model_db_dir}...")
-                for file in list_files_in_dir(VERIFIED_MODELS_DB_DIR, include_directories=False, only_with_extensions=[".json"], just_names=False):
+                for file in list_files_in_dir(VERIFIED_MODELS_DB_DIR, False, True, [".json"], absolute=True):
                     f_mdt = ModelData.from_json(file)
                     f_mdt.set_save_dir(model_db_dir)
                     f_mdt.save_json()
                     print(f"Saved a copy of {file} to {model_db_dir}.")
         else:
             print(f"Using default model db dir: {model_db_dir}, reconfiguring models...")
-            for file in list_files_in_dir(VERIFIED_MODELS_DB_DIR, include_directories=False, only_with_extensions=[".json"], just_names=False):
+            for file in list_files_in_dir(VERIFIED_MODELS_DB_DIR, False, True, [".json"], absolute=True):
                 f_mdt = ModelData.from_json(file)
                 f_mdt.set_save_dir(model_db_dir)
                 f_mdt.save_json()
