@@ -12,7 +12,9 @@ Models data format:
     "gguf_file_path": "./models_db/gguf_models\\mistral-7b-instruct-v0.1.Q2_K.gguf",
     "model_name": "mistral-7b-instruct-v0.1",
     "model_quantization": "Q2_K",
-    "description": "he Mistral-7B-Instruct-v0.1 Large Language Model (LLM) \n    is a instruct fine-tuned version of the Mistral-7B-v0.1 \n    generative text model using a variety of publicly available conversation datasets.",
+    "description": "he Mistral-7B-Instruct-v0.1 Large Language Model (LLM) 
+    is a instruct fine-tuned version of the Mistral-7B-v0.1 
+    generative text model using a variety of publicly available conversation datasets.",
     "keywords": [
         "mistral",
         "v0.1",
@@ -39,6 +41,22 @@ Models data format:
 
 
 class ModelData:
+    """Class for storing and managing model data.
+
+    Attributes:
+        gguf_url (str): URL of ggUF file for model
+        gguf_file_path (str): Local file path for downloaded ggUF model file
+        name (str): Name of the model 
+        model_quantization (str): Quantization used for the model
+        description (str): Description of the model
+        keywords (List[str]): List of keywords for the model
+        user_tags (Dict[str, str]): Dictionary of opening and closing tags for user markup
+        ai_tags (Dict[str, str]): Dictionary of opening and closing tags for AI markup
+        system_tags (Dict[str, str]): Dictionary of opening and closing tags for system markup
+        save_dir (str): Directory to save model file and metadata
+
+    """
+    
     def __init__(self, 
         gguf_url:str,
         db_dir:str,
@@ -48,7 +66,18 @@ class ModelData:
         description:Optional[str] = None, 
         keywords:Optional[list] = None,
         ):
+        """Initialize ModelData object.
 
+        Args:
+            gguf_url (str): URL of ggUF file for model
+            db_dir (str): Directory to save model file and metadata
+            user_tags (Union[dict, list, set], optional): User markup tags. Defaults to ("","").
+            ai_tags (Union[dict, list, set], optional): AI markup tags. Defaults to ("","").
+            system_tags (Optional[Union[dict, list, set]], optional): System markup tags. Defaults to None.
+            description (Optional[str], optional): Description of model. Defaults to None.
+            keywords (Optional[list], optional): List of keywords. Defaults to None.
+        """
+        
         #init all as None
         self.gguf_url = None
         self.gguf_file_path = None
@@ -72,6 +101,8 @@ class ModelData:
         self.set_tags(ai_tags, user_tags, system_tags)
 
     def __str__(self) -> str:
+        """Return string representation of ModelData object."""
+        
         t = f"""ModelData(
             ---required---
             gguf_url: {self.gguf_url},
@@ -91,13 +122,23 @@ class ModelData:
         return t
     
     def __repr__(self) -> str:
+        """Return representation of ModelData object."""
         return self.__str__()
     
     def __dict__(self) -> dict:
+        """Return dictionary representation of ModelData object."""
         return self.to_dict()
     
     @staticmethod
     def _hf_url_to_download_url(url) -> str:
+        """Convert HuggingFace URL to download URL.
+
+        Args:
+            url (str): HuggingFace URL 
+
+        Returns:
+            str: Download URL
+        """
         #to download replace blob with resolve and add download=true
         if not "huggingface.co" in url:
             raise ValueError(f"Invalid url: {url}, must be a huggingface.co url, other sources aren't implemented yet.")
@@ -110,12 +151,29 @@ class ModelData:
     
     @staticmethod    
     def _url_to_file_path(save_dir:str, url:str)->str:
+        """Convert URL to local file path.
+
+        Args:
+            save_dir (str): Directory to save file
+            url (str): URL of file
+
+        Returns:
+            str: Local file path
+        """
         #create_dirs_for(save_dir)
         file_path = join_paths(save_dir, ModelData._url_extract_file_name(url))
         return file_path 
     
     @staticmethod
     def _url_extract_file_name(url:str) -> str:
+        """Extract file name from URL.
+
+        Args:
+            url (str): URL
+
+        Returns:
+            str: File name
+        """
         f_name =  url.split("/")[-1]
         if is_file_format(f_name, ".gguf"):
             return f_name
@@ -124,15 +182,36 @@ class ModelData:
     
     @staticmethod
     def _url_extract_quantization(url:str) -> str:
+        """Extract quantization from URL.
+
+        Args:
+            url (str): URL
+
+        Returns:
+            str: Quantization
+        """
         quantization = ModelData._url_extract_file_name(url).split(".")[-2]
         return quantization
     
     @staticmethod
     def _url_extract_model_name(url:str) -> str:
+        """Extract model name from URL.
+
+        Args:
+            url (str): URL
+
+        Returns:
+            str: Model name
+        """
         model_name = ModelData._url_extract_file_name(url).split(".")[0:-2]
         return ".".join(model_name)
 
     def set_ai_tags(self, ai_tags:Union[dict, set[str], list[str], tuple[str]]) -> None:
+        """Set AI markup tags.
+
+        Args:
+            ai_tags (Union[dict, set, list, tuple]): AI tags
+        """
         if isinstance(ai_tags, dict):
             if "open" in ai_tags and "close" in ai_tags:
                 self.ai_tags = ai_tags
@@ -147,6 +226,11 @@ class ModelData:
             raise TypeError(f"Invalid type for user tags: {type(ai_tags)}, must be dict, set or list.")
         
     def set_user_tags(self, user_tags:Union[dict, set[str], list[str], tuple[str]]) -> None:
+        """Set user markup tags.
+
+        Args:
+            user_tags (Union[dict, set, list, tuple]): User tags
+        """
         if isinstance(user_tags, dict):
             if "open" in user_tags and "close" in user_tags:
                 self.user_tags = user_tags
@@ -161,6 +245,11 @@ class ModelData:
             raise TypeError(f"Invalid type for user tags: {type(user_tags)}, must be dict, set or list.")
 
     def set_system_tags(self, system_tags:Union[dict, set[str], list[str], tuple[str]]) -> None:
+        """Set system markup tags.
+
+        Args:
+            system_tags (Union[dict, set, list, tuple]): System tags
+        """
         if isinstance(system_tags, dict):
             if "open" in system_tags and "close" in system_tags:
                 self.system_tags = system_tags
@@ -173,11 +262,19 @@ class ModelData:
             }
         else:
             raise TypeError(f"Invalid type for system tags: {type(system_tags)}, must be dict, set or list.")
+            
     def set_tags(self, 
                  ai_tags:Optional[Union[dict, set[str], list[str], tuple[str]]],
                  user_tags:Optional[Union[dict, set[str], list[str], tuple[str]]],
                  system_tags:Optional[Union[dict, set[str], list[str], tuple[str]]],
                  ) -> None:
+        """Set all tags.
+
+        Args:
+            ai_tags (Optional[Union[dict, set, list, tuple]]): AI tags
+            user_tags (Optional[Union[dict, set, list, tuple]]): User tags
+            system_tags (Optional[Union[dict, set, list, tuple]]): System tags
+        """
         if ai_tags is not None:
             self.set_ai_tags(ai_tags)
         if user_tags is not None:
@@ -186,10 +283,20 @@ class ModelData:
             self.set_system_tags(system_tags)
 
     def set_save_dir(self, save_dir:str) -> None:
+        """Set save directory and update file path.
+
+        Args:
+            save_dir (str): Save directory
+        """
         self.save_dir = save_dir
         self.gguf_file_path = self._url_to_file_path(save_dir, self.gguf_url)
 
     def to_dict(self):
+        """Convert ModelData to dictionary.
+
+        Returns:
+            dict: Dictionary representation of ModelData
+        """
         model_data = {
             "url": self.gguf_url,
             "gguf_file_path": self.gguf_file_path,
@@ -203,8 +310,17 @@ class ModelData:
             "save_dir": self.save_dir,
         }
         return model_data
+    
     @staticmethod
     def from_dict(model_data:dict) -> "ModelData":
+        """Create ModelData from dictionary.
+
+        Args:
+            model_data (dict): Dictionary representation of ModelData
+
+        Returns:
+            ModelData: ModelData object
+        """
         url = model_data["url"]
         save_dir = model_data["save_dir"]
         description = model_data["description"] if "description" in model_data else None
@@ -216,14 +332,30 @@ class ModelData:
         return new_model_data
 
     def is_downloaded(self) -> bool:
-        """Checks if the model file is downloaded."""
+        """Check if model file is downloaded.
+        
+        Returns:
+            bool: True if downloaded, False otherwise
+        """
         return does_file_exist(self.gguf_file_path)
     
     def has_json(self) -> bool:
-        """Checks if the model is in the db."""
+        """Check if JSON metadata file exists.
+
+        Returns:
+            bool: True if exists, False otherwise
+        """
         return does_file_exist(self.json_path())
     
     def download_gguf(self, force_redownload:bool=False) -> str:
+        """Download ggUF model file.
+
+        Args:
+            force_redownload (bool, optional): Force redownload if exists. Defaults to False.
+
+        Returns:
+            str: File path of downloaded file
+        """
         print(f"Preparing {self.gguf_file_path}\n for {self.name} : {self.model_quantization}...")
         if not does_file_exist(self.gguf_file_path) or force_redownload:
             print(f"Downloading {self.name} : {self.model_quantization}...")
@@ -258,9 +390,22 @@ class ModelData:
         return self.gguf_file_path
     
     def json_path(self) -> str:
+        """Get path for JSON metadata file.
+
+        Returns:
+            str: JSON file path
+        """
         return change_extension(self.gguf_file_path, ".json")
     
     def save_json(self, replace_existing:bool=True) -> str:
+        """Save ModelData to JSON file.
+
+        Args:
+            replace_existing (bool, optional): Overwrite if exists. Defaults to True.
+
+        Returns:
+            str: JSON file path
+        """
         if replace_existing or not self.has_json():
             save_json_file(self.json_path(), self.to_dict())
         else:
@@ -269,20 +414,62 @@ class ModelData:
     
     @staticmethod
     def from_json(json_file_path:str) -> "ModelData":
+        """Create ModelData from JSON file.
+
+        Args:
+            json_file_path (str): Path to JSON file containing model data
+
+        Returns:
+            ModelData: ModelData object
+        """
         model_data = load_json_file(json_file_path)
         return ModelData.from_dict(model_data)
+
 
     @staticmethod
     def from_url(url:str, save_dir:str, user_tags:Union[dict, list, set] = ("", ""), ai_tags:Union[dict, list, set] = ("", ""), system_tags:Union[dict, list, set] = ("", ""),
                   description:Optional[str] = None, keywords:Optional[list] = None) -> "ModelData":
+        """Create ModelData from URL.
+
+        Args:
+            url (str): ggUF URL
+            save_dir (str): Directory to save model
+            user_tags (Union[dict, list, set], optional): User markup tags. Defaults to ("", "").
+            ai_tags (Union[dict, list, set], optional): AI markup tags. Defaults to ("", "").
+            system_tags (Union[dict, list, set], optional): System markup tags. Defaults to ("", "").
+            description (Optional[str], optional): Model description. Defaults to None.
+            keywords (Optional[list], optional): List of keywords. Defaults to None.
+
+        Returns:
+            ModelData: ModelData object
+        """
         return ModelData(url, save_dir, user_tags, ai_tags, system_tags, description, keywords)
 
     def model_path(self) -> str:
+        """Get model file path.
+        
+        Returns:
+            str: ggUF file path
+        """
         return self.gguf_file_path
 
     @staticmethod
     def from_file(gguf_file_path:str, save_dir:Optional[str]=None, user_tags:Union[dict, list, set] = ("", ""), ai_tags:Union[dict, list, set] = ("", ""), system_tags:Union[dict, list, set] = ("", ""),
                   description:Optional[str] = None, keywords:Optional[list] = None) -> "ModelData":
+        """Create ModelData from ggUF file.
+
+        Args:
+            gguf_file_path (str): Path to ggUF file
+            save_dir (Optional[str], optional): Directory to save. Defaults to None.
+            user_tags (Union[dict, list, set], optional): User markup tags. Defaults to ("", "").
+            ai_tags (Union[dict, list, set], optional): AI markup tags. Defaults to ("", "").
+            system_tags (Union[dict, list, set], optional): System markup tags. Defaults to ("", "").
+            description (Optional[str], optional): Model description. Defaults to None.
+            keywords (Optional[list], optional): List of keywords. Defaults to None.
+
+        Returns:
+            ModelData: ModelData object
+        """        
         #creates a model where url is also the file path
         save_dir = get_directory(gguf_file_path) if save_dir is None else save_dir
         url = gguf_file_path
