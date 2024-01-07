@@ -2,7 +2,7 @@ import bs4
 import requests
 from typing import Union, Optional
 
-from util_helper.file_handler import create_dir, list_files_in_dir, copy_large_file
+from util_helper.file_handler import create_dir, list_files_in_dir, copy_large_file, get_absolute_path
 from util_helper.compare_strings import compare_two_strings
 from .model_data import ModelData
 from .db_settings import VERIFIED_MODELS_DB_DIR
@@ -30,6 +30,8 @@ class ModelDB:
 
         if model_db_dir is None:
             model_db_dir = VERIFIED_MODELS_DB_DIR
+        else:
+            model_db_dir = get_absolute_path(model_db_dir)
         self.set_model_db_dir(model_db_dir)
 
 
