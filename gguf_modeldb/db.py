@@ -46,7 +46,7 @@ class ModelDB:
     def find_models(self, name_query:Optional[str]=None, 
                    quantization_query:Optional[str]=None, 
                    keywords_query:Optional[str]=None,
-                   treshold:float=0.5) -> Union[None, list]:
+                   treshold:float=0.6) -> Union[None, list]:
         if name_query is None and quantization_query is None and keywords_query is None:
             return None
         scoring_models_dict = {}
@@ -66,13 +66,13 @@ class ModelDB:
                     if name_score > top_name_score:
                         top_name_score = name_score
                 if top_name_score > treshold:
-                    scoring_models_dict[id]["score"] += top_name_score
+                    scoring_models_dict[id]["score"] += top_name_score*4
                 #print(f"Model {model_name} {model_quantization} top score: {top_name_score} treshold: {treshold}")
             if quantization_query is not None:
                 #print(f"Searching for quantization: {quantization_query}")
                 quantization_score = compare_two_strings(quantization_query, model_quantization)
                 if quantization_score > treshold:
-                    scoring_models_dict[id]["score"] += quantization_score
+                    scoring_models_dict[id]["score"] += quantization_score*2
                 #print(f"Model {model_name} {model_quantization} score: {quantization_score} treshold: {treshold}")
             if keywords_query is not None:
                 #print(f"Searching for keyword: {keywords_query}")
