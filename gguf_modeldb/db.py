@@ -8,7 +8,23 @@ from .model_data import ModelData
 from .db_settings import VERIFIED_MODELS_DB_DIR
 
 class ModelDB:
+    """Class for managing a database of ModelData objects.
+
+    Handles loading models from a directory, searching, adding new models,
+    and interfacing with HuggingFace to import models.
+
+    Attributes:
+        gguf_db_dir (str): Path to directory containing ModelData files
+        models (List[ModelData]): List of ModelData objects  
+    """
+    
     def __init__(self, model_db_dir:Optional[str]=None, copy_verified_models=True):
+        """Initialize ModelDB object.
+
+        Args:
+            model_db_dir (str, optional): Path to database directory. Defaults to VERIFIED_MODELS_DB_DIR.
+            copy_verified_models (bool, optional): Whether to copy example models to the new directory. Defaults to True.
+        """
         self.gguf_db_dir = None
         self.models = []
 
@@ -36,10 +52,16 @@ class ModelDB:
         self.load_models()
     
     def set_model_db_dir(self, model_db_dir:str) -> None:
+        """Set the database directory.
+
+        Args:
+            model_db_dir (str): Path to database directory
+        """
         print(f"ModelDB dir set to {model_db_dir}.")
         self.gguf_db_dir = create_dir(model_db_dir)
     
     def load_models(self) -> None:
+        """Load ModelData objects from the database directory."""
         self.models = []
         files = list_files_in_dir(self.gguf_db_dir, include_directories=False, include_files=True, only_with_extensions=[".json"])
         for file in files:
@@ -55,6 +77,18 @@ class ModelDB:
                    quantization_query:Optional[str]=None, 
                    keywords_query:Optional[str]=None,
                    treshold:float=0.6) -> Union[None, list]:
+        """Search for models based on name, quantization, and keywords.
+
+        Args:
+            name_query (str, optional): Search query for name
+            quantization_query (str, optional): Search query for quantization 
+            keywords_query (str, optional): Search query for keywords
+            treshold (float, optional): Minimum score threshold. Defaults to 0.6.
+
+        Returns:
+            Union[None, list]: Sorted list of models exceeding threshold,
+                               or None if no query provided
+        """
         if name_query is None and quantization_query is None and keywords_query is None:
             return None
         scoring_models_dict = {}
@@ -104,6 +138,16 @@ class ModelDB:
                    quantization_query:Optional[str]=None, 
                    keywords_query:Optional[str]=None,
                    ) -> Optional[ModelData]:
+        """Find top matching model based on queries.
+
+        Args:
+            name_query (str, optional): Search query for name
+            quantization_query (str, optional): Search query for quantization
+            keywords_query (str, optional): Search query for keywords
+
+        Returns:
+            Optional[ModelData]: Top matching ModelData object or None
+        """
         sorted_models = self.find_models(name_query, quantization_query, keywords_query)
         if sorted_models is None:
             return None
@@ -111,32 +155,67 @@ class ModelDB:
             #print(f"Found {len(sorted_models)} models.")
             #print(sorted_models)
             return sorted_models[0]
+        
     def get_model_by_url(self, url:str) -> Optional[ModelData]:
+        """Get ModelData by exact URL match.
+
+        Args:
+            url (str): ggUF URL
+
+        Returns:
+            Optional[ModelData]: Matching ModelData or None if not found
+        """
         for model in self.models:
             model:ModelData = model
             if model.gguf_url == url:
                 return model
-        return None    
+        return None
+        
     def add_model_data(self, model_data:ModelData, save_model=True) -> None:
+        """Add a ModelData object to the database.
+
+        Args:
+            model_data (ModelData): ModelData object to add
+            save_model (bool, optional): Whether to save ModelData to file. Defaults to True.
+        """
         self.models.append(model_data)
         if save_model:
             model_data.save_json()
     
     def add_model_by_url(self, url:str, ) -> None:
+        """Add a model by URL.
+
+        Args:
+            url (str): ggUF URL
+        """
         model_data = ModelData(url, db_dir=self.gguf_db_dir)
         self.add_model_data(model_data)
 
     def add_model_by_json(self, json_file_path:str) -> None:
+        """Add a model from a JSON file.
+
+        Args:
+            json_file_path (str): Path to ModelData JSON file
+        """
         model_data = ModelData.from_json(json_file_path)
         self.add_model_data(model_data)
 
     def save_all_models(self) -> None:
+        """Save all ModelData objects to file."""
         for model in self.models:
             model:ModelData = model
             model.save_json()
                 
     @staticmethod
     def _model_links_from_repo(hf_repo_url:str):
+        """Extract ggUF model links from a HuggingFace repo page.
+
+        Args:
+            hf_repo_url (str): URL of HuggingFace model repo
+
+        Returns:
+            list: List of ggUF URLs
+        """
         #extract models from hf 
         response = requests.get(hf_repo_url)
         html = response.text
@@ -150,12 +229,26 @@ class ModelDB:
                 print(f"Found model: {href}")
                 model_links.append(href)
         return model_links
+    
     def load_models_data_from_repo(self, hf_repo_url:str, 
                         user_tags:Optional[list[str]]=None,
                         ai_tags:Optional[list[str]]=None,
                         system_tags:Optional[list[str]]=None,
                         keywords:Optional[list[str]]=None, 
-                        description:Optional[str]=None):  
+                        description:Optional[str]=None):
+        """Load model data from a HuggingFace repo page.
+
+        Args:
+            hf_repo_url (str): URL of HuggingFace model repo
+            user_tags (Optional[list[str]], optional): User tags to apply. Defaults to None.
+            ai_tags (Optional[list[str]], optional): AI tags to apply. Defaults to None.
+            system_tags (Optional[list[str]], optional): System tags to apply. Defaults to None.
+            keywords (Optional[list[str]], optional): Keywords to apply. Defaults to None.
+            description (Optional[str], optional): Description to apply. Defaults to None.
+
+        Returns:
+            list: List of loaded ModelData objects
+        """
         #create model data from hf repo
         model_links = ModelDB._model_links_from_repo(hf_repo_url)
         model_datas = []
@@ -173,7 +266,18 @@ class ModelDB:
                         keywords:Optional[list[str]]=None, 
                         description:Optional[str]=None,
                         replace_existing:bool=False,
-                        ):  
+                        ):
+        """Import models from a HuggingFace repo page.
+
+        Args:
+            hf_repo_url (str): URL of HuggingFace model repo  
+            user_tags (Optional[list[str]], optional): User tags to apply. Defaults to None.
+            ai_tags (Optional[list[str]], optional): AI tags to apply. Defaults to None.
+            system_tags (Optional[list[str]], optional): System tags to apply. Defaults to None.
+            keywords (Optional[list[str]], optional): Keywords to apply. Defaults to None.
+            description (Optional[str], optional): Description to apply. Defaults to None.
+            replace_existing (bool, optional): Whether to overwrite existing files. Defaults to False.
+        """
         #create model data from hf repo
         model_links = ModelDB._model_links_from_repo(hf_repo_url)
         print(f"Loaded {len(model_links)} models from {hf_repo_url}.")
@@ -183,6 +287,11 @@ class ModelDB:
         self.load_models()
     
     def list_available_models(self) -> list[str]:
+        """Get a list of available model names.
+
+        Returns:
+            list[str]: List of model names
+        """
         print(f"Available models in {self.gguf_db_dir}:")
         models = []
         for model in self.models:
@@ -192,6 +301,14 @@ class ModelDB:
         return models
     
     def list_models_quantizations(self, model_name:str) -> list[str]:
+        """Get list of quantizations for a model.
+
+        Args:
+            model_name (str): Name of model
+
+        Returns:
+            list[str]: List of quantizations
+        """
         quantizations = []
         for model in self.models:
             model:ModelData = model
@@ -200,6 +317,7 @@ class ModelDB:
         return quantizations
 
     def show_db_info(self) -> None:
+        """Print summary information about the database."""
         print(f"ModelDB summary:")
         print(f"ModelDB dir: {self.gguf_db_dir}")
         print(f"Number of models: {len(self.models)}")
@@ -221,13 +339,3 @@ class ModelDB:
             print(f"\t\tKeywords: {models_info['keywords']}")
             print(f"\t\tDescription: {models_info['description']}")
             print(f"\t-------------------------------")
-
-
-
-
-        
-
-
-        
-        
-    
