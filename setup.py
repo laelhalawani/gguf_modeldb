@@ -3,19 +3,18 @@ from setuptools import setup, find_packages
 with open("./README.md", "r") as fh:
     long_description = fh.read()
 setup(
-    name="glai",
-    version="0.0.19",
+    name="gguf_modeldb",
+    version="0.0.1a0",
     packages=find_packages(),
     install_requires=[
         'requests>=2.31.0',
         'beautifulsoup4>=4.9.3',
-        'gguf_llama>=0.0.15',
     ],
-    package_data={'glai': ['back_end/model_db/gguf_models/*.json']},
+    package_data={'gguf_modeldb': ['gguf_models/*.json']},
     include_package_data=True,
     author="Łael Al-Halawani",
     author_email="laelhalawani@gmail.com",
-    description="Easy deployment of quantized llama models on cpu",
+    description="A Llama2 quantized gguf model db with over 50 preconfigured models downloadable in one line, easly add your own models or adjust settings. Don't struggle with manual downloads again.",
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
@@ -31,7 +30,7 @@ setup(
     ],
     long_description=long_description,
     long_description_content_type='text/markdown',
-    keywords=['llama', 'ai', 'artificial intelligence', 'natural language processing', 'nlp', 'quantization', 'cpu', 'deployment', 'inference', 'model', 'models', 'model database', 'model repo', 'model repository', 'model library', 'model libraries',
-              'gguf', 'llm cpu', 'llm'],
-    url="https://github.com/laelhalawani/glai",
+    keywords=['llama', 'ai', 'artificial intelligence', 'natural language processing', 'nlp', 'quantization', 'cpu', 'deployment', 'database', 'model', 'models', 'model database', 'model repo', 'model repository', 'model library', 'model libraries',
+              'gguf', 'llm'],
+    url="https://github.com/laelhalawani/gguf_modeldb",
 )
