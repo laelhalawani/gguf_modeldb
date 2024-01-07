@@ -5,26 +5,34 @@ from typing import Union, Optional
 from util_helper.file_handler import create_dir, list_files_in_dir
 from util_helper.compare_strings import compare_two_strings
 from .model_data import ModelData
-from .db_settings import VERIFIED_MODELS_DB
+from .db_settings import VERIFIED_MODELS_DB_DIR
 
 class ModelDB:
-    def __init__(self, model_db_dir:Optional[str]=None, copy_examples=True):
+    def __init__(self, model_db_dir:Optional[str]=None, copy_verified_models=True):
         self.gguf_db_dir = None
         self.models = []
 
         if model_db_dir is None:
-            model_db_dir = VERIFIED_MODELS_DB
+            model_db_dir = VERIFIED_MODELS_DB_DIR
         self.set_model_db_dir(model_db_dir)
-        if model_db_dir != VERIFIED_MODELS_DB:
-            if copy_examples:
+
+
+        if model_db_dir != VERIFIED_MODELS_DB_DIR:
+            if copy_verified_models:
                 print(f"Copying examples to {model_db_dir}...")
-                for file in list_files_in_dir(VERIFIED_MODELS_DB, include_directories=False, only_with_extensions=[".json"], just_names=False):
+                for file in list_files_in_dir(VERIFIED_MODELS_DB_DIR, include_directories=False, only_with_extensions=[".json"], just_names=False):
                     f_mdt = ModelData.from_json(file)
                     f_mdt.set_save_dir(model_db_dir)
                     f_mdt.save_json()
                     print(f"Saved a copy of {file} to {model_db_dir}.")
         else:
-            print(f"Using default model db dir: {model_db_dir}, changes here will be visible and accessible globaly. If you would like to work with a specific db_dir provide it as an argument to the ModelDB constructor.")
+            print(f"Using default model db dir: {model_db_dir}, reconfiguring models...")
+            for file in list_files_in_dir(VERIFIED_MODELS_DB_DIR, include_directories=False, only_with_extensions=[".json"], just_names=False):
+                f_mdt = ModelData.from_json(file)
+                f_mdt.set_save_dir(model_db_dir)
+                f_mdt.save_json()
+                print(f"Reconfigured {file}.")
+
         self.load_models()
     
     def set_model_db_dir(self, model_db_dir:str) -> None:
