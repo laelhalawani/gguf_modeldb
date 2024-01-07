@@ -1,0 +1,2567 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>gguf_modeldb API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Package <code>gguf_modeldb</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from .db import ModelDB
+from .model_data import ModelData
+from .db_settings import VERIFIED_MODELS_DB_DIR
+
+__all__ = [&#39;ModelData&#39;,&#39;ModelDB&#39;, &#39;VERIFIED_MODELS_DB_DIR&#39;]</code></pre>
+</details>
+</section>
+<section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="gguf_modeldb.db" href="db.html">gguf_modeldb.db</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="gguf_modeldb.db_settings" href="db_settings.html">gguf_modeldb.db_settings</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="gguf_modeldb.model_data" href="model_data.html">gguf_modeldb.model_data</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="gguf_modeldb.ModelDB"><code class="flex name class">
+<span>class <span class="ident">ModelDB</span></span>
+<span>(</span><span>model_db_dir: Optional[str] = None, copy_verified_models=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class for managing a database of ModelData objects.</p>
+<p>Handles loading models from a directory, searching, adding new models,
+and interfacing with HuggingFace to import models.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>gguf_db_dir</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to directory containing ModelData files</dd>
+<dt><strong><code>models</code></strong> :&ensp;<code>List[<a title="gguf_modeldb.ModelData" href="#gguf_modeldb.ModelData">ModelData</a>]</code></dt>
+<dd>List of ModelData objects
+</dd>
+</dl>
+<p>Initialize ModelDB object.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>model_db_dir</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Path to database directory. Defaults to VERIFIED_MODELS_DB_DIR.</dd>
+<dt><strong><code>copy_verified_models</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Whether to copy example models to the new directory. Defaults to True.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ModelDB:
+    &#34;&#34;&#34;Class for managing a database of ModelData objects.
+
+    Handles loading models from a directory, searching, adding new models,
+    and interfacing with HuggingFace to import models.
+
+    Attributes:
+        gguf_db_dir (str): Path to directory containing ModelData files
+        models (List[ModelData]): List of ModelData objects  
+    &#34;&#34;&#34;
+    
+    def __init__(self, model_db_dir:Optional[str]=None, copy_verified_models=True):
+        &#34;&#34;&#34;Initialize ModelDB object.
+
+        Args:
+            model_db_dir (str, optional): Path to database directory. Defaults to VERIFIED_MODELS_DB_DIR.
+            copy_verified_models (bool, optional): Whether to copy example models to the new directory. Defaults to True.
+        &#34;&#34;&#34;
+        self.gguf_db_dir = None
+        self.models = []
+
+        if model_db_dir is None:
+            model_db_dir = VERIFIED_MODELS_DB_DIR
+        else:
+            model_db_dir = get_absolute_path(model_db_dir)
+        self.set_model_db_dir(model_db_dir)
+
+
+        if model_db_dir != VERIFIED_MODELS_DB_DIR:
+            if copy_verified_models:
+                print(f&#34;Copying examples to {model_db_dir}...&#34;)
+                for file in list_files_in_dir(VERIFIED_MODELS_DB_DIR, False, True, [&#34;.json&#34;], absolute=True):
+                    f_mdt = ModelData.from_json(file)
+                    f_mdt.set_save_dir(model_db_dir)
+                    f_mdt.save_json()
+                    print(f&#34;Saved a copy of {file} to {model_db_dir}.&#34;)
+        else:
+            print(f&#34;Using default model db dir: {model_db_dir}, reconfiguring models...&#34;)
+            for file in list_files_in_dir(VERIFIED_MODELS_DB_DIR, False, True, [&#34;.json&#34;], absolute=True):
+                f_mdt = ModelData.from_json(file)
+                f_mdt.set_save_dir(model_db_dir)
+                f_mdt.save_json()
+                print(f&#34;Reconfigured {file}.&#34;)
+
+        self.load_models()
+    
+    def set_model_db_dir(self, model_db_dir:str) -&gt; None:
+        &#34;&#34;&#34;Set the database directory.
+
+        Args:
+            model_db_dir (str): Path to database directory
+        &#34;&#34;&#34;
+        print(f&#34;ModelDB dir set to {model_db_dir}.&#34;)
+        self.gguf_db_dir = create_dir(model_db_dir)
+    
+    def load_models(self) -&gt; None:
+        &#34;&#34;&#34;Load ModelData objects from the database directory.&#34;&#34;&#34;
+        self.models = []
+        files = list_files_in_dir(self.gguf_db_dir, False, True, [&#34;.json&#34;], absolute=True)
+        for file in files:
+            try:
+                model_data = ModelData.from_json(file)
+                self.models.append(model_data)
+            except Exception as e:
+                print(f&#34;Error trying to load from {file}: \t\n{e}, \nskipping...&#34;)
+                continue
+        print(f&#34;Loaded {len(self.models)} models from {self.gguf_db_dir}.&#34;)
+
+    def find_models(self, name_query:Optional[str]=None, 
+                   quantization_query:Optional[str]=None, 
+                   keywords_query:Optional[str]=None,
+                   treshold:float=0.6) -&gt; Union[None, list]:
+        &#34;&#34;&#34;Search for models based on name, quantization, and keywords.
+
+        Args:
+            name_query (str, optional): Search query for name
+            quantization_query (str, optional): Search query for quantization 
+            keywords_query (str, optional): Search query for keywords
+            treshold (float, optional): Minimum score threshold. Defaults to 0.6.
+
+        Returns:
+            Union[None, list]: Sorted list of models exceeding threshold,
+                               or None if no query provided
+        &#34;&#34;&#34;
+        if name_query is None and quantization_query is None and keywords_query is None:
+            return None
+        scoring_models_dict = {}
+        for i, model in enumerate(self.models):
+            scoring_models_dict[i] = {&#34;model&#34;:model, &#34;score&#34;:0}
+        for id in scoring_models_dict.keys():
+            model = scoring_models_dict[id][&#34;model&#34;]
+            model:ModelData = model
+            model_name = model.name
+            model_quantization = model.model_quantization
+            model_keywords = model.keywords
+            if name_query is not None:
+                #print(f&#34;Searching for name: {name_query}&#34;)
+                top_name_score = 0
+                for model_subname in model_name.split(&#34;-&#34;):
+                    name_score = compare_two_strings(name_query, model_subname)
+                    if name_score &gt; top_name_score:
+                        top_name_score = name_score
+                if top_name_score &gt; treshold:
+                    scoring_models_dict[id][&#34;score&#34;] += top_name_score*4
+                #print(f&#34;Model {model_name} {model_quantization} top score: {top_name_score} treshold: {treshold}&#34;)
+            if quantization_query is not None:
+                #print(f&#34;Searching for quantization: {quantization_query}&#34;)
+                quantization_score = compare_two_strings(quantization_query, model_quantization)
+                if quantization_score &gt; treshold:
+                    scoring_models_dict[id][&#34;score&#34;] += quantization_score*2
+                #print(f&#34;Model {model_name} {model_quantization} score: {quantization_score} treshold: {treshold}&#34;)
+            if keywords_query is not None:
+                #print(f&#34;Searching for keyword: {keywords_query}&#34;)
+                best_keyword_score = 0
+                for keyword in model_keywords:
+                    keyword_score = compare_two_strings(keywords_query, keyword)
+                    if keyword_score &gt; best_keyword_score:
+                        best_keyword_score = keyword_score
+                if best_keyword_score &gt; treshold:
+                    scoring_models_dict[id][&#34;score&#34;] += best_keyword_score
+                #print(f&#34;Model {model_name} {model_quantization} score: {best_keyword_score} treshold: {treshold}&#34;)
+            #print(f&#34;Model {model_name} {model_quantization} score: {scoring_models_dict[id][&#39;score&#39;]}&#34;)
+        sorted_models = sorted(scoring_models_dict.items(), key=lambda x: x[1][&#34;score&#34;], reverse=True)
+        #keep just the list of model data
+        sorted_models = [x[1][&#34;model&#34;] for x in sorted_models]
+        #print(f&#34;Found {len(sorted_models)} models.&#34;)
+        #print(sorted_models)
+        return sorted_models
+    
+    def find_model(self, name_query:Optional[str]=None, 
+                   quantization_query:Optional[str]=None, 
+                   keywords_query:Optional[str]=None,
+                   ) -&gt; Optional[ModelData]:
+        &#34;&#34;&#34;Find top matching model based on queries.
+
+        Args:
+            name_query (str, optional): Search query for name
+            quantization_query (str, optional): Search query for quantization
+            keywords_query (str, optional): Search query for keywords
+
+        Returns:
+            Optional[ModelData]: Top matching ModelData object or None
+        &#34;&#34;&#34;
+        sorted_models = self.find_models(name_query, quantization_query, keywords_query)
+        if sorted_models is None or len(sorted_models) == 0:
+            if len(self.models) == 0:
+                print(f&#34;There were no models to be searched. Try importing a verified model or using the defualt db dir.&#34;)
+            raise Exception(f&#34;Could not find a model matching the query: {name_query} {quantization_query} {keywords_query}&#34;)
+        else:
+            #print(f&#34;Found {len(sorted_models)} models.&#34;)
+            #print(sorted_models)
+            return sorted_models[0]
+        
+    def get_model_by_url(self, url:str) -&gt; Optional[ModelData]:
+        &#34;&#34;&#34;Get ModelData by exact URL match.
+
+        Args:
+            url (str): ggUF URL
+
+        Returns:
+            Optional[ModelData]: Matching ModelData or None if not found
+        &#34;&#34;&#34;
+        for model in self.models:
+            model:ModelData = model
+            if model.gguf_url == url:
+                return model
+        return None
+        
+    def add_model_data(self, model_data:ModelData, save_model=True) -&gt; None:
+        &#34;&#34;&#34;Add a ModelData object to the database.
+
+        Args:
+            model_data (ModelData): ModelData object to add
+            save_model (bool, optional): Whether to save ModelData to file. Defaults to True.
+        &#34;&#34;&#34;
+        self.models.append(model_data)
+        if save_model:
+            model_data.save_json()
+    
+    def add_model_by_url(self, url:str, ) -&gt; None:
+        &#34;&#34;&#34;Add a model by URL.
+
+        Args:
+            url (str): ggUF URL
+        &#34;&#34;&#34;
+        model_data = ModelData(url, db_dir=self.gguf_db_dir)
+        self.add_model_data(model_data)
+
+    def add_model_by_json(self, json_file_path:str) -&gt; None:
+        &#34;&#34;&#34;Add a model from a JSON file.
+
+        Args:
+            json_file_path (str): Path to ModelData JSON file
+        &#34;&#34;&#34;
+        model_data = ModelData.from_json(json_file_path)
+        self.add_model_data(model_data)
+
+    def save_all_models(self) -&gt; None:
+        &#34;&#34;&#34;Save all ModelData objects to file.&#34;&#34;&#34;
+        for model in self.models:
+            model:ModelData = model
+            model.save_json()
+                
+    @staticmethod
+    def _model_links_from_repo(hf_repo_url:str):
+        &#34;&#34;&#34;Extract ggUF model links from a HuggingFace repo page.
+
+        Args:
+            hf_repo_url (str): URL of HuggingFace model repo
+
+        Returns:
+            list: List of ggUF URLs
+        &#34;&#34;&#34;
+        #extract models from hf 
+        response = requests.get(hf_repo_url)
+        html = response.text
+        soup = bs4.BeautifulSoup(html, &#39;html.parser&#39;)
+        #find all links that end with .gguf
+        print(f&#34;Looking for {hf_repo_url} gguf files...&#34;)
+        model_links = []
+        for link in soup.find_all(&#39;a&#39;):
+            href = link.get(&#39;href&#39;)
+            if href is not None and href.endswith(&#34;.gguf&#34;):
+                print(f&#34;Found model: {href}&#34;)
+                model_links.append(href)
+        return model_links
+    
+    def load_models_data_from_repo(self, hf_repo_url:str, 
+                        user_tags:Optional[list[str]]=None,
+                        ai_tags:Optional[list[str]]=None,
+                        system_tags:Optional[list[str]]=None,
+                        keywords:Optional[list[str]]=None, 
+                        description:Optional[str]=None):
+        &#34;&#34;&#34;Load model data from a HuggingFace repo page.
+
+        Args:
+            hf_repo_url (str): URL of HuggingFace model repo
+            user_tags (Optional[list[str]], optional): User tags to apply. Defaults to None.
+            ai_tags (Optional[list[str]], optional): AI tags to apply. Defaults to None.
+            system_tags (Optional[list[str]], optional): System tags to apply. Defaults to None.
+            keywords (Optional[list[str]], optional): Keywords to apply. Defaults to None.
+            description (Optional[str], optional): Description to apply. Defaults to None.
+
+        Returns:
+            list: List of loaded ModelData objects
+        &#34;&#34;&#34;
+        #create model data from hf repo
+        model_links = ModelDB._model_links_from_repo(hf_repo_url)
+        model_datas = []
+        for model_link in model_links:
+            model_data = ModelData(gguf_url=model_link, db_dir=self.gguf_db_dir, user_tags=user_tags, ai_tags=ai_tags, system_tags=system_tags, description=description, keywords=keywords)
+            model_datas.append(model_data)
+            model_data.save_json()
+        self.models.extend(model_datas)
+        return model_datas
+
+    def import_models_from_repo(self, hf_repo_url:str,
+                        user_tags:Optional[list[str]]=None,
+                        ai_tags:Optional[list[str]]=None,
+                        system_tags:Optional[list[str]]=None,
+                        keywords:Optional[list[str]]=None, 
+                        description:Optional[str]=None,
+                        replace_existing:bool=False,
+                        ):
+        &#34;&#34;&#34;Import models from a HuggingFace repo page.
+
+        Args:
+            hf_repo_url (str): URL of HuggingFace model repo  
+            user_tags (Optional[list[str]], optional): User tags to apply. Defaults to None.
+            ai_tags (Optional[list[str]], optional): AI tags to apply. Defaults to None.
+            system_tags (Optional[list[str]], optional): System tags to apply. Defaults to None.
+            keywords (Optional[list[str]], optional): Keywords to apply. Defaults to None.
+            description (Optional[str], optional): Description to apply. Defaults to None.
+            replace_existing (bool, optional): Whether to overwrite existing files. Defaults to False.
+        &#34;&#34;&#34;
+        #create model data from hf repo
+        model_links = ModelDB._model_links_from_repo(hf_repo_url)
+        print(f&#34;Loaded {len(model_links)} models from {hf_repo_url}.&#34;)
+        for model_link in model_links:
+            model_data = ModelData(gguf_url=model_link, db_dir=self.gguf_db_dir, user_tags=user_tags, ai_tags=ai_tags, system_tags=system_tags, description=description, keywords=keywords)
+            model_data.save_json(replace_existing=replace_existing)
+        self.load_models()
+    
+
+    def import_verified_model(self, 
+                              name_search:Optional[str]=None,
+                              quantization_search:Optional[str]=None,
+                              keywords_search:Optional[str]=None,
+                              copy_gguf:bool=True) -&gt; None:
+        &#34;&#34;&#34;Import a verified model from the verified model database with ready configurations into your selected db dir.
+        Use this to selectively add models from the verified model database to your own database.
+        Models inlcude official dolphin, mistral, mixtral, solar and zephyr models in all available quantizations. 
+        Args:
+            name_search (Optional[str], optional): Search query for name. Defaults to None.
+            quantization_search (Optional[str], optional): Search query for quantization. Defaults to None.
+            keywords_search (Optional[str], optional): Search query for keywords. Defaults to None.
+        &#34;&#34;&#34;
+        if self.gguf_db_dir == VERIFIED_MODELS_DB_DIR:
+            print(&#34;Cannot import verified model to the default database directory. All models should be already available here.&#34;)
+        else:
+            vmdb = ModelDB()
+            model = vmdb.find_model(name_search, quantization_search, keywords_search)
+            if copy_gguf and model.is_downloaded():
+                source_file = model.gguf_file_path
+                target_file = model.gguf_file_path.replace(vmdb.gguf_db_dir, self.gguf_db_dir)
+                print(f&#34;Copying {source_file} to {target_file}...&#34;)
+                copy_large_file(source_file, target_file)
+
+            model.set_save_dir(self.gguf_db_dir)
+            model.save_json()
+            self.load_models()
+
+    def list_available_models(self) -&gt; list[str]:
+        &#34;&#34;&#34;Get a list of available model names.
+
+        Returns:
+            list[str]: List of model names
+        &#34;&#34;&#34;
+        print(f&#34;Available models in {self.gguf_db_dir}:&#34;)
+        models = []
+        for model in self.models:
+            model:ModelData = model
+            if model.name not in models:
+                models.append(model.name)
+        return models
+    
+    def list_models_quantizations(self, model_name:str) -&gt; list[str]:
+        &#34;&#34;&#34;Get list of quantizations for a model.
+
+        Args:
+            model_name (str): Name of model
+
+        Returns:
+            list[str]: List of quantizations
+        &#34;&#34;&#34;
+        quantizations = []
+        for model in self.models:
+            model:ModelData = model
+            if model.name == model_name:
+                quantizations.append(model.model_quantization)
+        return quantizations
+
+    def show_db_info(self) -&gt; None:
+        &#34;&#34;&#34;Print summary information about the database.&#34;&#34;&#34;
+        print(f&#34;ModelDB summary:&#34;)
+        print(f&#34;ModelDB dir: {self.gguf_db_dir}&#34;)
+        print(f&#34;Number of models: {len(self.models)}&#34;)
+        print(f&#34;Available models:&#34;)
+        models_info = {}
+        for model in self.models:
+            model:ModelData = model
+            if model.name not in models_info.keys():
+                models_info[model.name] = {}
+                models_info[model.name][&#34;quantizations&#34;] = []
+                models_info[model.name][&#34;description&#34;] = model.description
+                models_info[model.name][&#34;keywords&#34;] = model.keywords
+            if model.model_quantization not in models_info[model.name][&#34;quantizations&#34;]:
+                models_info[model.name][&#34;quantizations&#34;].append(model.model_quantization)
+        
+        for model_name, models_info in models_info.items():
+            print(f&#34;\t{model_name}:&#34;)
+            print(f&#34;\t\tQuantizations: {models_info[&#39;quantizations&#39;]}&#34;)
+            print(f&#34;\t\tKeywords: {models_info[&#39;keywords&#39;]}&#34;)
+            print(f&#34;\t\tDescription: {models_info[&#39;description&#39;]}&#34;)
+            print(f&#34;\t-------------------------------&#34;)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="gguf_modeldb.ModelDB.add_model_by_json"><code class="name flex">
+<span>def <span class="ident">add_model_by_json</span></span>(<span>self, json_file_path: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Add a model from a JSON file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>json_file_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to ModelData JSON file</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_model_by_json(self, json_file_path:str) -&gt; None:
+    &#34;&#34;&#34;Add a model from a JSON file.
+
+    Args:
+        json_file_path (str): Path to ModelData JSON file
+    &#34;&#34;&#34;
+    model_data = ModelData.from_json(json_file_path)
+    self.add_model_data(model_data)</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelDB.add_model_by_url"><code class="name flex">
+<span>def <span class="ident">add_model_by_url</span></span>(<span>self, url: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Add a model by URL.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>ggUF URL</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_model_by_url(self, url:str, ) -&gt; None:
+    &#34;&#34;&#34;Add a model by URL.
+
+    Args:
+        url (str): ggUF URL
+    &#34;&#34;&#34;
+    model_data = ModelData(url, db_dir=self.gguf_db_dir)
+    self.add_model_data(model_data)</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelDB.add_model_data"><code class="name flex">
+<span>def <span class="ident">add_model_data</span></span>(<span>self, model_data: <a title="gguf_modeldb.model_data.ModelData" href="model_data.html#gguf_modeldb.model_data.ModelData">ModelData</a>, save_model=True) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Add a ModelData object to the database.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>model_data</code></strong> :&ensp;<code><a title="gguf_modeldb.ModelData" href="#gguf_modeldb.ModelData">ModelData</a></code></dt>
+<dd>ModelData object to add</dd>
+<dt><strong><code>save_model</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Whether to save ModelData to file. Defaults to True.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_model_data(self, model_data:ModelData, save_model=True) -&gt; None:
+    &#34;&#34;&#34;Add a ModelData object to the database.
+
+    Args:
+        model_data (ModelData): ModelData object to add
+        save_model (bool, optional): Whether to save ModelData to file. Defaults to True.
+    &#34;&#34;&#34;
+    self.models.append(model_data)
+    if save_model:
+        model_data.save_json()</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelDB.find_model"><code class="name flex">
+<span>def <span class="ident">find_model</span></span>(<span>self, name_query: Optional[str] = None, quantization_query: Optional[str] = None, keywords_query: Optional[str] = None) ‑> Optional[<a title="gguf_modeldb.model_data.ModelData" href="model_data.html#gguf_modeldb.model_data.ModelData">ModelData</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Find top matching model based on queries.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name_query</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Search query for name</dd>
+<dt><strong><code>quantization_query</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Search query for quantization</dd>
+<dt><strong><code>keywords_query</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Search query for keywords</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Optional[<a title="gguf_modeldb.ModelData" href="#gguf_modeldb.ModelData">ModelData</a>]</code></dt>
+<dd>Top matching ModelData object or None</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def find_model(self, name_query:Optional[str]=None, 
+               quantization_query:Optional[str]=None, 
+               keywords_query:Optional[str]=None,
+               ) -&gt; Optional[ModelData]:
+    &#34;&#34;&#34;Find top matching model based on queries.
+
+    Args:
+        name_query (str, optional): Search query for name
+        quantization_query (str, optional): Search query for quantization
+        keywords_query (str, optional): Search query for keywords
+
+    Returns:
+        Optional[ModelData]: Top matching ModelData object or None
+    &#34;&#34;&#34;
+    sorted_models = self.find_models(name_query, quantization_query, keywords_query)
+    if sorted_models is None or len(sorted_models) == 0:
+        if len(self.models) == 0:
+            print(f&#34;There were no models to be searched. Try importing a verified model or using the defualt db dir.&#34;)
+        raise Exception(f&#34;Could not find a model matching the query: {name_query} {quantization_query} {keywords_query}&#34;)
+    else:
+        #print(f&#34;Found {len(sorted_models)} models.&#34;)
+        #print(sorted_models)
+        return sorted_models[0]</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelDB.find_models"><code class="name flex">
+<span>def <span class="ident">find_models</span></span>(<span>self, name_query: Optional[str] = None, quantization_query: Optional[str] = None, keywords_query: Optional[str] = None, treshold: float = 0.6) ‑> Optional[None]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Search for models based on name, quantization, and keywords.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name_query</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Search query for name</dd>
+<dt><strong><code>quantization_query</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Search query for quantization </dd>
+<dt><strong><code>keywords_query</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Search query for keywords</dd>
+<dt><strong><code>treshold</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Minimum score threshold. Defaults to 0.6.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Union[None, list]</code></dt>
+<dd>Sorted list of models exceeding threshold,
+or None if no query provided</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def find_models(self, name_query:Optional[str]=None, 
+               quantization_query:Optional[str]=None, 
+               keywords_query:Optional[str]=None,
+               treshold:float=0.6) -&gt; Union[None, list]:
+    &#34;&#34;&#34;Search for models based on name, quantization, and keywords.
+
+    Args:
+        name_query (str, optional): Search query for name
+        quantization_query (str, optional): Search query for quantization 
+        keywords_query (str, optional): Search query for keywords
+        treshold (float, optional): Minimum score threshold. Defaults to 0.6.
+
+    Returns:
+        Union[None, list]: Sorted list of models exceeding threshold,
+                           or None if no query provided
+    &#34;&#34;&#34;
+    if name_query is None and quantization_query is None and keywords_query is None:
+        return None
+    scoring_models_dict = {}
+    for i, model in enumerate(self.models):
+        scoring_models_dict[i] = {&#34;model&#34;:model, &#34;score&#34;:0}
+    for id in scoring_models_dict.keys():
+        model = scoring_models_dict[id][&#34;model&#34;]
+        model:ModelData = model
+        model_name = model.name
+        model_quantization = model.model_quantization
+        model_keywords = model.keywords
+        if name_query is not None:
+            #print(f&#34;Searching for name: {name_query}&#34;)
+            top_name_score = 0
+            for model_subname in model_name.split(&#34;-&#34;):
+                name_score = compare_two_strings(name_query, model_subname)
+                if name_score &gt; top_name_score:
+                    top_name_score = name_score
+            if top_name_score &gt; treshold:
+                scoring_models_dict[id][&#34;score&#34;] += top_name_score*4
+            #print(f&#34;Model {model_name} {model_quantization} top score: {top_name_score} treshold: {treshold}&#34;)
+        if quantization_query is not None:
+            #print(f&#34;Searching for quantization: {quantization_query}&#34;)
+            quantization_score = compare_two_strings(quantization_query, model_quantization)
+            if quantization_score &gt; treshold:
+                scoring_models_dict[id][&#34;score&#34;] += quantization_score*2
+            #print(f&#34;Model {model_name} {model_quantization} score: {quantization_score} treshold: {treshold}&#34;)
+        if keywords_query is not None:
+            #print(f&#34;Searching for keyword: {keywords_query}&#34;)
+            best_keyword_score = 0
+            for keyword in model_keywords:
+                keyword_score = compare_two_strings(keywords_query, keyword)
+                if keyword_score &gt; best_keyword_score:
+                    best_keyword_score = keyword_score
+            if best_keyword_score &gt; treshold:
+                scoring_models_dict[id][&#34;score&#34;] += best_keyword_score
+            #print(f&#34;Model {model_name} {model_quantization} score: {best_keyword_score} treshold: {treshold}&#34;)
+        #print(f&#34;Model {model_name} {model_quantization} score: {scoring_models_dict[id][&#39;score&#39;]}&#34;)
+    sorted_models = sorted(scoring_models_dict.items(), key=lambda x: x[1][&#34;score&#34;], reverse=True)
+    #keep just the list of model data
+    sorted_models = [x[1][&#34;model&#34;] for x in sorted_models]
+    #print(f&#34;Found {len(sorted_models)} models.&#34;)
+    #print(sorted_models)
+    return sorted_models</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelDB.get_model_by_url"><code class="name flex">
+<span>def <span class="ident">get_model_by_url</span></span>(<span>self, url: str) ‑> Optional[<a title="gguf_modeldb.model_data.ModelData" href="model_data.html#gguf_modeldb.model_data.ModelData">ModelData</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get ModelData by exact URL match.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>ggUF URL</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Optional[<a title="gguf_modeldb.ModelData" href="#gguf_modeldb.ModelData">ModelData</a>]</code></dt>
+<dd>Matching ModelData or None if not found</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_model_by_url(self, url:str) -&gt; Optional[ModelData]:
+    &#34;&#34;&#34;Get ModelData by exact URL match.
+
+    Args:
+        url (str): ggUF URL
+
+    Returns:
+        Optional[ModelData]: Matching ModelData or None if not found
+    &#34;&#34;&#34;
+    for model in self.models:
+        model:ModelData = model
+        if model.gguf_url == url:
+            return model
+    return None</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelDB.import_models_from_repo"><code class="name flex">
+<span>def <span class="ident">import_models_from_repo</span></span>(<span>self, hf_repo_url: str, user_tags: Optional[list[str]] = None, ai_tags: Optional[list[str]] = None, system_tags: Optional[list[str]] = None, keywords: Optional[list[str]] = None, description: Optional[str] = None, replace_existing: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Import models from a HuggingFace repo page.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>hf_repo_url</code></strong> :&ensp;<code>str</code></dt>
+<dd>URL of HuggingFace model repo
+</dd>
+<dt><strong><code>user_tags</code></strong> :&ensp;<code>Optional[list[str]]</code>, optional</dt>
+<dd>User tags to apply. Defaults to None.</dd>
+<dt><strong><code>ai_tags</code></strong> :&ensp;<code>Optional[list[str]]</code>, optional</dt>
+<dd>AI tags to apply. Defaults to None.</dd>
+<dt><strong><code>system_tags</code></strong> :&ensp;<code>Optional[list[str]]</code>, optional</dt>
+<dd>System tags to apply. Defaults to None.</dd>
+<dt><strong><code>keywords</code></strong> :&ensp;<code>Optional[list[str]]</code>, optional</dt>
+<dd>Keywords to apply. Defaults to None.</dd>
+<dt><strong><code>description</code></strong> :&ensp;<code>Optional[str]</code>, optional</dt>
+<dd>Description to apply. Defaults to None.</dd>
+<dt><strong><code>replace_existing</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Whether to overwrite existing files. Defaults to False.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def import_models_from_repo(self, hf_repo_url:str,
+                    user_tags:Optional[list[str]]=None,
+                    ai_tags:Optional[list[str]]=None,
+                    system_tags:Optional[list[str]]=None,
+                    keywords:Optional[list[str]]=None, 
+                    description:Optional[str]=None,
+                    replace_existing:bool=False,
+                    ):
+    &#34;&#34;&#34;Import models from a HuggingFace repo page.
+
+    Args:
+        hf_repo_url (str): URL of HuggingFace model repo  
+        user_tags (Optional[list[str]], optional): User tags to apply. Defaults to None.
+        ai_tags (Optional[list[str]], optional): AI tags to apply. Defaults to None.
+        system_tags (Optional[list[str]], optional): System tags to apply. Defaults to None.
+        keywords (Optional[list[str]], optional): Keywords to apply. Defaults to None.
+        description (Optional[str], optional): Description to apply. Defaults to None.
+        replace_existing (bool, optional): Whether to overwrite existing files. Defaults to False.
+    &#34;&#34;&#34;
+    #create model data from hf repo
+    model_links = ModelDB._model_links_from_repo(hf_repo_url)
+    print(f&#34;Loaded {len(model_links)} models from {hf_repo_url}.&#34;)
+    for model_link in model_links:
+        model_data = ModelData(gguf_url=model_link, db_dir=self.gguf_db_dir, user_tags=user_tags, ai_tags=ai_tags, system_tags=system_tags, description=description, keywords=keywords)
+        model_data.save_json(replace_existing=replace_existing)
+    self.load_models()</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelDB.import_verified_model"><code class="name flex">
+<span>def <span class="ident">import_verified_model</span></span>(<span>self, name_search: Optional[str] = None, quantization_search: Optional[str] = None, keywords_search: Optional[str] = None, copy_gguf: bool = True) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Import a verified model from the verified model database with ready configurations into your selected db dir.
+Use this to selectively add models from the verified model database to your own database.
+Models inlcude official dolphin, mistral, mixtral, solar and zephyr models in all available quantizations. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name_search</code></strong> :&ensp;<code>Optional[str]</code>, optional</dt>
+<dd>Search query for name. Defaults to None.</dd>
+<dt><strong><code>quantization_search</code></strong> :&ensp;<code>Optional[str]</code>, optional</dt>
+<dd>Search query for quantization. Defaults to None.</dd>
+<dt><strong><code>keywords_search</code></strong> :&ensp;<code>Optional[str]</code>, optional</dt>
+<dd>Search query for keywords. Defaults to None.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def import_verified_model(self, 
+                          name_search:Optional[str]=None,
+                          quantization_search:Optional[str]=None,
+                          keywords_search:Optional[str]=None,
+                          copy_gguf:bool=True) -&gt; None:
+    &#34;&#34;&#34;Import a verified model from the verified model database with ready configurations into your selected db dir.
+    Use this to selectively add models from the verified model database to your own database.
+    Models inlcude official dolphin, mistral, mixtral, solar and zephyr models in all available quantizations. 
+    Args:
+        name_search (Optional[str], optional): Search query for name. Defaults to None.
+        quantization_search (Optional[str], optional): Search query for quantization. Defaults to None.
+        keywords_search (Optional[str], optional): Search query for keywords. Defaults to None.
+    &#34;&#34;&#34;
+    if self.gguf_db_dir == VERIFIED_MODELS_DB_DIR:
+        print(&#34;Cannot import verified model to the default database directory. All models should be already available here.&#34;)
+    else:
+        vmdb = ModelDB()
+        model = vmdb.find_model(name_search, quantization_search, keywords_search)
+        if copy_gguf and model.is_downloaded():
+            source_file = model.gguf_file_path
+            target_file = model.gguf_file_path.replace(vmdb.gguf_db_dir, self.gguf_db_dir)
+            print(f&#34;Copying {source_file} to {target_file}...&#34;)
+            copy_large_file(source_file, target_file)
+
+        model.set_save_dir(self.gguf_db_dir)
+        model.save_json()
+        self.load_models()</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelDB.list_available_models"><code class="name flex">
+<span>def <span class="ident">list_available_models</span></span>(<span>self) ‑> list[str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get a list of available model names.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[str]</code></dt>
+<dd>List of model names</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_available_models(self) -&gt; list[str]:
+    &#34;&#34;&#34;Get a list of available model names.
+
+    Returns:
+        list[str]: List of model names
+    &#34;&#34;&#34;
+    print(f&#34;Available models in {self.gguf_db_dir}:&#34;)
+    models = []
+    for model in self.models:
+        model:ModelData = model
+        if model.name not in models:
+            models.append(model.name)
+    return models</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelDB.list_models_quantizations"><code class="name flex">
+<span>def <span class="ident">list_models_quantizations</span></span>(<span>self, model_name: str) ‑> list[str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get list of quantizations for a model.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>model_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of model</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[str]</code></dt>
+<dd>List of quantizations</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_models_quantizations(self, model_name:str) -&gt; list[str]:
+    &#34;&#34;&#34;Get list of quantizations for a model.
+
+    Args:
+        model_name (str): Name of model
+
+    Returns:
+        list[str]: List of quantizations
+    &#34;&#34;&#34;
+    quantizations = []
+    for model in self.models:
+        model:ModelData = model
+        if model.name == model_name:
+            quantizations.append(model.model_quantization)
+    return quantizations</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelDB.load_models"><code class="name flex">
+<span>def <span class="ident">load_models</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Load ModelData objects from the database directory.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_models(self) -&gt; None:
+    &#34;&#34;&#34;Load ModelData objects from the database directory.&#34;&#34;&#34;
+    self.models = []
+    files = list_files_in_dir(self.gguf_db_dir, False, True, [&#34;.json&#34;], absolute=True)
+    for file in files:
+        try:
+            model_data = ModelData.from_json(file)
+            self.models.append(model_data)
+        except Exception as e:
+            print(f&#34;Error trying to load from {file}: \t\n{e}, \nskipping...&#34;)
+            continue
+    print(f&#34;Loaded {len(self.models)} models from {self.gguf_db_dir}.&#34;)</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelDB.load_models_data_from_repo"><code class="name flex">
+<span>def <span class="ident">load_models_data_from_repo</span></span>(<span>self, hf_repo_url: str, user_tags: Optional[list[str]] = None, ai_tags: Optional[list[str]] = None, system_tags: Optional[list[str]] = None, keywords: Optional[list[str]] = None, description: Optional[str] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Load model data from a HuggingFace repo page.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>hf_repo_url</code></strong> :&ensp;<code>str</code></dt>
+<dd>URL of HuggingFace model repo</dd>
+<dt><strong><code>user_tags</code></strong> :&ensp;<code>Optional[list[str]]</code>, optional</dt>
+<dd>User tags to apply. Defaults to None.</dd>
+<dt><strong><code>ai_tags</code></strong> :&ensp;<code>Optional[list[str]]</code>, optional</dt>
+<dd>AI tags to apply. Defaults to None.</dd>
+<dt><strong><code>system_tags</code></strong> :&ensp;<code>Optional[list[str]]</code>, optional</dt>
+<dd>System tags to apply. Defaults to None.</dd>
+<dt><strong><code>keywords</code></strong> :&ensp;<code>Optional[list[str]]</code>, optional</dt>
+<dd>Keywords to apply. Defaults to None.</dd>
+<dt><strong><code>description</code></strong> :&ensp;<code>Optional[str]</code>, optional</dt>
+<dd>Description to apply. Defaults to None.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code></dt>
+<dd>List of loaded ModelData objects</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_models_data_from_repo(self, hf_repo_url:str, 
+                    user_tags:Optional[list[str]]=None,
+                    ai_tags:Optional[list[str]]=None,
+                    system_tags:Optional[list[str]]=None,
+                    keywords:Optional[list[str]]=None, 
+                    description:Optional[str]=None):
+    &#34;&#34;&#34;Load model data from a HuggingFace repo page.
+
+    Args:
+        hf_repo_url (str): URL of HuggingFace model repo
+        user_tags (Optional[list[str]], optional): User tags to apply. Defaults to None.
+        ai_tags (Optional[list[str]], optional): AI tags to apply. Defaults to None.
+        system_tags (Optional[list[str]], optional): System tags to apply. Defaults to None.
+        keywords (Optional[list[str]], optional): Keywords to apply. Defaults to None.
+        description (Optional[str], optional): Description to apply. Defaults to None.
+
+    Returns:
+        list: List of loaded ModelData objects
+    &#34;&#34;&#34;
+    #create model data from hf repo
+    model_links = ModelDB._model_links_from_repo(hf_repo_url)
+    model_datas = []
+    for model_link in model_links:
+        model_data = ModelData(gguf_url=model_link, db_dir=self.gguf_db_dir, user_tags=user_tags, ai_tags=ai_tags, system_tags=system_tags, description=description, keywords=keywords)
+        model_datas.append(model_data)
+        model_data.save_json()
+    self.models.extend(model_datas)
+    return model_datas</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelDB.save_all_models"><code class="name flex">
+<span>def <span class="ident">save_all_models</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Save all ModelData objects to file.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def save_all_models(self) -&gt; None:
+    &#34;&#34;&#34;Save all ModelData objects to file.&#34;&#34;&#34;
+    for model in self.models:
+        model:ModelData = model
+        model.save_json()</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelDB.set_model_db_dir"><code class="name flex">
+<span>def <span class="ident">set_model_db_dir</span></span>(<span>self, model_db_dir: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set the database directory.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>model_db_dir</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to database directory</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_model_db_dir(self, model_db_dir:str) -&gt; None:
+    &#34;&#34;&#34;Set the database directory.
+
+    Args:
+        model_db_dir (str): Path to database directory
+    &#34;&#34;&#34;
+    print(f&#34;ModelDB dir set to {model_db_dir}.&#34;)
+    self.gguf_db_dir = create_dir(model_db_dir)</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelDB.show_db_info"><code class="name flex">
+<span>def <span class="ident">show_db_info</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Print summary information about the database.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_db_info(self) -&gt; None:
+    &#34;&#34;&#34;Print summary information about the database.&#34;&#34;&#34;
+    print(f&#34;ModelDB summary:&#34;)
+    print(f&#34;ModelDB dir: {self.gguf_db_dir}&#34;)
+    print(f&#34;Number of models: {len(self.models)}&#34;)
+    print(f&#34;Available models:&#34;)
+    models_info = {}
+    for model in self.models:
+        model:ModelData = model
+        if model.name not in models_info.keys():
+            models_info[model.name] = {}
+            models_info[model.name][&#34;quantizations&#34;] = []
+            models_info[model.name][&#34;description&#34;] = model.description
+            models_info[model.name][&#34;keywords&#34;] = model.keywords
+        if model.model_quantization not in models_info[model.name][&#34;quantizations&#34;]:
+            models_info[model.name][&#34;quantizations&#34;].append(model.model_quantization)
+    
+    for model_name, models_info in models_info.items():
+        print(f&#34;\t{model_name}:&#34;)
+        print(f&#34;\t\tQuantizations: {models_info[&#39;quantizations&#39;]}&#34;)
+        print(f&#34;\t\tKeywords: {models_info[&#39;keywords&#39;]}&#34;)
+        print(f&#34;\t\tDescription: {models_info[&#39;description&#39;]}&#34;)
+        print(f&#34;\t-------------------------------&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="gguf_modeldb.ModelData"><code class="flex name class">
+<span>class <span class="ident">ModelData</span></span>
+<span>(</span><span>gguf_url: str, db_dir: str, user_tags: Union[dict, list, set] = ('', ''), ai_tags: Union[dict, list, set] = ('', ''), system_tags: Union[dict, list, set, ForwardRef(None)] = None, description: Optional[str] = None, keywords: Optional[None] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class for storing and managing model data.
+Provides methods for downloading gguf model files, saving metadata to JSON files and loading from JSON files.
+As well as for retreiving model tags and paths.</p>
+<p>Public methods:
+download_gguf(force_redownload:bool=False) -&gt; str: Download gguf model file
+save_json(replace_existing:bool=True) -&gt; str: Save ModelData to JSON file
+from_json(json_file_path:str) -&gt; "ModelData": Create ModelData from JSON file
+from_url(url:str, save_dir:str, user_tags:Union[dict, list, set] = ("", ""), ai_tags:Union[dict, list, set] = ("", ""), system_tags:Union[dict, list, set] = ("", ""),
+description:Optional[str] = None, keywords:Optional[list] = None) -&gt; "ModelData": Create ModelData from URL
+from_file(gguf_file_path:str, save_dir:Optional[str]=None, user_tags:Union[dict, list, set] = ("", ""), ai_tags:Union[dict, list, set] = ("", ""), system_tags:Union[dict, list, set] = ("", ""),
+description:Optional[str] = None, keywords:Optional[list] = None) -&gt; "ModelData": Create ModelData from gguf file
+model_path() -&gt; str: Get model file path
+get_ai_tag_open() -&gt; str: Get opening AI tag
+get_ai_tag_close() -&gt; str: Get closing AI tag
+get_user_tag_open() -&gt; str: Get opening user tag
+get_user_tag_close() -&gt; str: Get closing user tag
+get_system_tag_open() -&gt; str: Get opening system tag
+get_system_tag_close() -&gt; str: Get closing system tag
+get_ai_tags() -&gt; list[str]: Get list of AI tags
+get_user_tags() -&gt; list[str]: Get list of user tags
+get_system_tags() -&gt; list[str]: Get list of system tags
+has_system_tags() -&gt; bool: Check if system tags are set</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>gguf_url</code></strong> :&ensp;<code>str</code></dt>
+<dd>URL of gguf file for model</dd>
+<dt><strong><code>gguf_file_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Local file path for downloaded gguf model file</dd>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the model </dd>
+<dt><strong><code>model_quantization</code></strong> :&ensp;<code>str</code></dt>
+<dd>Quantization used for the model</dd>
+<dt><strong><code>description</code></strong> :&ensp;<code>str</code></dt>
+<dd>Description of the model</dd>
+<dt><strong><code>keywords</code></strong> :&ensp;<code>List[str]</code></dt>
+<dd>List of keywords for the model</dd>
+<dt><strong><code>user_tags</code></strong> :&ensp;<code>Dict[str, str]</code></dt>
+<dd>Dictionary of opening and closing tags for user markup</dd>
+<dt><strong><code>ai_tags</code></strong> :&ensp;<code>Dict[str, str]</code></dt>
+<dd>Dictionary of opening and closing tags for AI markup</dd>
+<dt><strong><code>system_tags</code></strong> :&ensp;<code>Dict[str, str]</code></dt>
+<dd>Dictionary of opening and closing tags for system markup</dd>
+<dt><strong><code>save_dir</code></strong> :&ensp;<code>str</code></dt>
+<dd>Directory to save model file and metadata</dd>
+</dl>
+<p>Initialize ModelData object.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>gguf_url</code></strong> :&ensp;<code>str</code></dt>
+<dd>URL of gguf file for model</dd>
+<dt><strong><code>db_dir</code></strong> :&ensp;<code>str</code></dt>
+<dd>Directory to save model file and metadata</dd>
+<dt><strong><code>user_tags</code></strong> :&ensp;<code>Union[dict, list, set]</code>, optional</dt>
+<dd>User markup tags. Defaults to ("","").</dd>
+<dt><strong><code>ai_tags</code></strong> :&ensp;<code>Union[dict, list, set]</code>, optional</dt>
+<dd>AI markup tags. Defaults to ("","").</dd>
+<dt><strong><code>system_tags</code></strong> :&ensp;<code>Optional[Union[dict, list, set]]</code>, optional</dt>
+<dd>System markup tags. Defaults to None.</dd>
+<dt><strong><code>description</code></strong> :&ensp;<code>Optional[str]</code>, optional</dt>
+<dd>Description of model. Defaults to None.</dd>
+<dt><strong><code>keywords</code></strong> :&ensp;<code>Optional[list]</code>, optional</dt>
+<dd>List of keywords. Defaults to None.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ModelData:
+    &#34;&#34;&#34;Class for storing and managing model data.
+    Provides methods for downloading gguf model files, saving metadata to JSON files and loading from JSON files.
+    As well as for retreiving model tags and paths.
+
+    Public methods:
+        download_gguf(force_redownload:bool=False) -&gt; str: Download gguf model file
+        save_json(replace_existing:bool=True) -&gt; str: Save ModelData to JSON file
+        from_json(json_file_path:str) -&gt; &#34;ModelData&#34;: Create ModelData from JSON file
+        from_url(url:str, save_dir:str, user_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;), ai_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;), system_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;),
+                  description:Optional[str] = None, keywords:Optional[list] = None) -&gt; &#34;ModelData&#34;: Create ModelData from URL
+        from_file(gguf_file_path:str, save_dir:Optional[str]=None, user_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;), ai_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;), system_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;),
+                  description:Optional[str] = None, keywords:Optional[list] = None) -&gt; &#34;ModelData&#34;: Create ModelData from gguf file
+        model_path() -&gt; str: Get model file path
+        get_ai_tag_open() -&gt; str: Get opening AI tag
+        get_ai_tag_close() -&gt; str: Get closing AI tag
+        get_user_tag_open() -&gt; str: Get opening user tag
+        get_user_tag_close() -&gt; str: Get closing user tag
+        get_system_tag_open() -&gt; str: Get opening system tag
+        get_system_tag_close() -&gt; str: Get closing system tag
+        get_ai_tags() -&gt; list[str]: Get list of AI tags
+        get_user_tags() -&gt; list[str]: Get list of user tags
+        get_system_tags() -&gt; list[str]: Get list of system tags
+        has_system_tags() -&gt; bool: Check if system tags are set
+
+    Attributes:
+        gguf_url (str): URL of gguf file for model
+        gguf_file_path (str): Local file path for downloaded gguf model file
+        name (str): Name of the model 
+        model_quantization (str): Quantization used for the model
+        description (str): Description of the model
+        keywords (List[str]): List of keywords for the model
+        user_tags (Dict[str, str]): Dictionary of opening and closing tags for user markup
+        ai_tags (Dict[str, str]): Dictionary of opening and closing tags for AI markup
+        system_tags (Dict[str, str]): Dictionary of opening and closing tags for system markup
+        save_dir (str): Directory to save model file and metadata
+
+    &#34;&#34;&#34;
+    
+    def __init__(self, 
+        gguf_url:str,
+        db_dir:str,
+        user_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;), 
+        ai_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;),
+        system_tags:Optional[Union[dict, list, set]] = None,
+        description:Optional[str] = None, 
+        keywords:Optional[list] = None,
+        ):
+        &#34;&#34;&#34;Initialize ModelData object.
+
+        Args:
+            gguf_url (str): URL of gguf file for model
+            db_dir (str): Directory to save model file and metadata
+            user_tags (Union[dict, list, set], optional): User markup tags. Defaults to (&#34;&#34;,&#34;&#34;).
+            ai_tags (Union[dict, list, set], optional): AI markup tags. Defaults to (&#34;&#34;,&#34;&#34;).
+            system_tags (Optional[Union[dict, list, set]], optional): System markup tags. Defaults to None.
+            description (Optional[str], optional): Description of model. Defaults to None.
+            keywords (Optional[list], optional): List of keywords. Defaults to None.
+        &#34;&#34;&#34;
+        
+        #init all as None
+        self.gguf_url = None
+        self.gguf_file_path = None
+        self.name = None
+        self.model_quantization = None
+        self.description = None
+        self.keywords = None
+        self.user_tags = None
+        self.ai_tags = None
+        self.system_tags = None
+        self.save_dir = None
+
+        #set values
+        self.gguf_url = gguf_url
+        self.set_save_dir(db_dir)
+        self.gguf_file_path = self._url_to_file_path(db_dir, gguf_url) 
+        self.name = self._url_extract_model_name(gguf_url)
+        self.model_quantization = self._url_extract_quantization(gguf_url)
+        self.description = description if description is not None else &#34;&#34;
+        self.keywords = keywords if keywords is not None else []
+        self.set_tags(ai_tags, user_tags, system_tags)
+
+    def __str__(self) -&gt; str:
+        &#34;&#34;&#34;Return string representation of ModelData object.&#34;&#34;&#34;
+        
+        t = f&#34;&#34;&#34;ModelData(
+            ---required---
+            gguf_url: {self.gguf_url},
+            ---required with defaults--- 
+            save_dir: {self.save_dir},
+            user_tags: {self.user_tags},
+            ai_tags: {self.ai_tags},
+            ---optionally provided, no defaults---
+            system_tags: {self.system_tags},
+            description: {self.description},
+            keywords: {self.keywords},
+            ---automatically generated---
+            gguf_file_path: {self.gguf_file_path},
+            model_name: {self.name},
+            model_quantization: {self.model_quantization}
+        )&#34;&#34;&#34;
+        return t
+    
+    def __repr__(self) -&gt; str:
+        &#34;&#34;&#34;Return representation of ModelData object.&#34;&#34;&#34;
+        return self.__str__()
+    
+    def __dict__(self) -&gt; dict:
+        &#34;&#34;&#34;Return dictionary representation of ModelData object.&#34;&#34;&#34;
+        return self.to_dict()
+    
+    @staticmethod
+    def _hf_url_to_download_url(url) -&gt; str:
+        &#34;&#34;&#34;Convert HuggingFace URL to download URL.
+
+        Args:
+            url (str): HuggingFace URL 
+
+        Returns:
+            str: Download URL
+        &#34;&#34;&#34;
+        #to download replace blob with resolve and add download=true
+        if not &#34;huggingface.co&#34; in url:
+            raise ValueError(f&#34;Invalid url: {url}, must be a huggingface.co url, other sources aren&#39;t implemented yet.&#34;)
+        url = url.replace(&#34;blob&#34;, &#34;resolve&#34;)
+        if url.endswith(&#34;/&#34;):
+            url = url[:-1]
+        if not url.endswith(&#34;?download=true&#34;):
+            url = url + &#34;?download=true&#34;
+        return url
+    
+    @staticmethod    
+    def _url_to_file_path(save_dir:str, url:str)-&gt;str:
+        &#34;&#34;&#34;Convert URL to local file path.
+
+        Args:
+            save_dir (str): Directory to save file
+            url (str): URL of file
+
+        Returns:
+            str: Local file path
+        &#34;&#34;&#34;
+        #create_dirs_for(save_dir)
+        file_path = join_paths(save_dir, ModelData._url_extract_file_name(url))
+        return file_path 
+    
+    @staticmethod
+    def _url_extract_file_name(url:str) -&gt; str:
+        &#34;&#34;&#34;Extract file name from URL.
+        Args:
+            url (str): URL
+
+        Returns:
+            str: File name
+        &#34;&#34;&#34;
+        f_name =  url.split(&#34;/&#34;)[-1]
+        if is_file_format(f_name, &#34;.gguf&#34;):
+            return f_name
+        else:
+            raise ValueError(f&#34;File {f_name} is not a gguf file.&#34;)
+    
+    @staticmethod
+    def _url_extract_quantization(url:str) -&gt; str:
+        &#34;&#34;&#34;Extract quantization from URL.
+        Args:
+            url (str): URL
+
+        Returns:
+            str: Quantization
+        &#34;&#34;&#34;
+        quantization = ModelData._url_extract_file_name(url).split(&#34;.&#34;)[-2]
+        return quantization
+    
+    @staticmethod
+    def _url_extract_model_name(url:str) -&gt; str:
+        &#34;&#34;&#34;Extract model name from URL.
+        Args:
+            url (str): URL
+
+        Returns:
+            str: Model name
+        &#34;&#34;&#34;
+        model_name = ModelData._url_extract_file_name(url).split(&#34;.&#34;)[0:-2]
+        return &#34;.&#34;.join(model_name)
+
+    def set_ai_tags(self, ai_tags:Union[dict, set[str], list[str], tuple[str]]) -&gt; None:
+        &#34;&#34;&#34;Set AI markup tags.
+        Args:
+            ai_tags (Union[dict, set, list, tuple]): AI tags
+        &#34;&#34;&#34;
+        if isinstance(ai_tags, dict):
+            if &#34;open&#34; in ai_tags and &#34;close&#34; in ai_tags:
+                self.ai_tags = ai_tags
+            else:
+                raise ValueError(f&#34;Invalid user tags: {ai_tags}, for dict tags both &#39;open&#39; and &#39;close&#39; keys must be present.&#34;)
+        elif isinstance(ai_tags, set) or isinstance(ai_tags, list) or isinstance(ai_tags, tuple):
+            self.ai_tags = {
+                &#34;open&#34;: ai_tags[0],
+                &#34;close&#34;: ai_tags[1]
+            }
+        else:
+            raise TypeError(f&#34;Invalid type for user tags: {type(ai_tags)}, must be dict, set or list.&#34;)
+        
+    def set_user_tags(self, user_tags:Union[dict, set[str], list[str], tuple[str]]) -&gt; None:
+        &#34;&#34;&#34;Set user markup tags.
+        Args:
+            user_tags (Union[dict, set, list, tuple]): User tags
+        &#34;&#34;&#34;
+        if isinstance(user_tags, dict):
+            if &#34;open&#34; in user_tags and &#34;close&#34; in user_tags:
+                self.user_tags = user_tags
+            else:
+                raise ValueError(f&#34;Invalid user tags: {user_tags}, for dict tags both &#39;open&#39; and &#39;close&#39; keys must be present.&#34;)
+        elif isinstance(user_tags, set) or isinstance(user_tags, list) or isinstance(user_tags, tuple):
+            self.user_tags = {
+                &#34;open&#34;: user_tags[0],
+                &#34;close&#34;: user_tags[1]
+            }
+        else:
+            raise TypeError(f&#34;Invalid type for user tags: {type(user_tags)}, must be dict, set or list.&#34;)
+
+    def set_system_tags(self, system_tags:Union[dict, set[str], list[str], tuple[str]]) -&gt; None:
+        &#34;&#34;&#34;Set system markup tags.
+        Args:
+            system_tags (Union[dict, set, list, tuple]): System tags
+        &#34;&#34;&#34;
+        if isinstance(system_tags, dict):
+            if &#34;open&#34; in system_tags and &#34;close&#34; in system_tags:
+                self.system_tags = system_tags
+            else:
+                raise ValueError(f&#34;Invalid system tags: {system_tags}, for dict tags both &#39;open&#39; and &#39;close&#39; keys must be present.&#34;)
+        elif isinstance(system_tags, set) or isinstance(system_tags, list) or isinstance(system_tags, tuple):
+            self.system_tags = {
+                &#34;open&#34;: system_tags[0],
+                &#34;close&#34;: system_tags[1]
+            }
+        else:
+            raise TypeError(f&#34;Invalid type for system tags: {type(system_tags)}, must be dict, set or list.&#34;)
+            
+    def set_tags(self, 
+                 ai_tags:Optional[Union[dict, set[str], list[str], tuple[str]]],
+                 user_tags:Optional[Union[dict, set[str], list[str], tuple[str]]],
+                 system_tags:Optional[Union[dict, set[str], list[str], tuple[str]]],
+                 ) -&gt; None:
+        &#34;&#34;&#34;Sets any of the provided tags.
+        Args:
+            ai_tags (Optional[Union[dict, set, list, tuple]]): AI tags
+            user_tags (Optional[Union[dict, set, list, tuple]]): User tags
+            system_tags (Optional[Union[dict, set, list, tuple]]): System tags
+        &#34;&#34;&#34;
+        if ai_tags is not None:
+            self.set_ai_tags(ai_tags)
+        if user_tags is not None:
+            self.set_user_tags(user_tags)
+        if system_tags is not None:
+            self.set_system_tags(system_tags)
+
+    def set_save_dir(self, save_dir:str) -&gt; None:
+        &#34;&#34;&#34;Set save directory and update save file path for the model.
+
+        Args:
+            save_dir (str): Save directory
+        &#34;&#34;&#34;
+        self.save_dir = save_dir
+        self.gguf_file_path = self._url_to_file_path(save_dir, self.gguf_url)
+
+    def to_dict(self):
+        &#34;&#34;&#34;Convert ModelData to dictionary.
+            &#34;url&#34;: str,
+            &#34;save_dir&#34;: str,
+            &#34;user_tags&#34;: Union[dict, list, set],
+            &#34;ai_tags&#34;: Union[dict, list, set],
+            &#34;description&#34;: str,
+            &#34;keywords&#34;: list,
+            &#34;system_tags&#34;: Union[dict, list, set]
+
+        Returns:
+            dict: Dictionary representation of ModelData
+        &#34;&#34;&#34;
+        model_data = {
+            &#34;url&#34;: self.gguf_url,
+            &#34;gguf_file_path&#34;: self.gguf_file_path,
+            &#34;model_name&#34;: self.name,
+            &#34;model_quantization&#34;: self.model_quantization, 
+            &#34;description&#34;: self.description,
+            &#34;keywords&#34;: self.keywords,
+            &#34;user_tags&#34;: self.user_tags,
+            &#34;ai_tags&#34;: self.ai_tags,
+            &#34;system_tags&#34;: self.system_tags,
+            &#34;save_dir&#34;: self.save_dir,
+        }
+        return model_data
+    
+    @staticmethod
+    def from_dict(model_data:dict) -&gt; &#34;ModelData&#34;:
+        &#34;&#34;&#34;Create ModelData from dictionary.
+
+        Args:
+            model_data (dict): Dictionary representation of ModelData
+            Needs to contain the following keys:
+            &#34;url&#34;: str,
+            &#34;save_dir&#34;: str,
+            &#34;user_tags&#34;: Union[dict, list, set],
+            &#34;ai_tags&#34;: Union[dict, list, set],
+            and optionally:
+            &#34;description&#34;: str,
+            &#34;keywords&#34;: list,
+            &#34;system_tags&#34;: Union[dict, list, set]
+
+        Returns:
+            ModelData: ModelData object
+        &#34;&#34;&#34;
+        url = model_data[&#34;url&#34;]
+        save_dir = model_data[&#34;save_dir&#34;]
+        description = model_data[&#34;description&#34;] if &#34;description&#34; in model_data else None
+        keywords = model_data[&#34;keywords&#34;] if &#34;keywords&#34; in model_data else None
+        user_tags = model_data[&#34;user_tags&#34;]
+        ai_tags = model_data[&#34;ai_tags&#34;]
+        system_tags = model_data[&#34;system_tags&#34;] if &#34;system_tags&#34; in model_data else None
+        new_model_data = ModelData(url, save_dir, user_tags, ai_tags, system_tags, description, keywords)
+        return new_model_data
+
+    def is_downloaded(self) -&gt; bool:
+        &#34;&#34;&#34;Check if model file is downloaded.
+        
+        Returns:
+            bool: True if downloaded, False otherwise
+        &#34;&#34;&#34;
+        return does_file_exist(self.gguf_file_path)
+    
+    def has_json(self) -&gt; bool:
+        &#34;&#34;&#34;Check if JSON metadata file exists.
+
+        Returns:
+            bool: True if exists, False otherwise
+        &#34;&#34;&#34;
+        return does_file_exist(self.json_path())
+    
+    def download_gguf(self, force_redownload:bool=False) -&gt; str:
+        &#34;&#34;&#34;Download gguf model file.
+
+        Args:
+            force_redownload (bool, optional): Force redownload if exists. Defaults to False.
+
+        Returns:
+            str: File path of downloaded file
+        &#34;&#34;&#34;
+        print(f&#34;Preparing {self.gguf_file_path}\n for {self.name} : {self.model_quantization}...&#34;)
+        if not does_file_exist(self.gguf_file_path) or force_redownload:
+            print(f&#34;Downloading {self.name} : {self.model_quantization}...&#34;)
+            gguf_download_url = self._hf_url_to_download_url(self.gguf_url)
+            response = requests.get(gguf_download_url, stream=True)
+            total_size = int(response.headers.get(&#39;content-length&#39;, 0))
+            block_size = 1024000  # 100 KB
+            progress_bar = f&#34;Please wait, downloading {self.name} : {self.model_quantization}: {{0:0.2f}}% | {{1:0.3f}}/{{2:0.3f}} GB) | {{3:0.3f}} MB/s&#34;
+            unfinished_save_path = self.gguf_file_path + &#34;.unfinished&#34;
+            with open(unfinished_save_path, &#34;wb&#34;) as f:
+                downloaded_size = 0
+                start_time = time.time()
+                elapsed_time = 0
+                downloaded_since_last = 0
+                for data in response.iter_content(block_size):
+                    downloaded_size += len(data)
+                    downloaded_since_last += len(data)
+                    f.write(data)
+                    elapsed_time = time.time() - start_time
+                    download_speed = (downloaded_since_last*10/(1024**3)) / elapsed_time if elapsed_time &gt; 0 else 0
+                    progress = downloaded_size / total_size * 100
+                    gb_downloaded = downloaded_size/(1024**3)
+                    gb_total = total_size/(1024**3)
+                    if elapsed_time &gt;= 1:
+                        print(progress_bar.format(progress, gb_downloaded, gb_total, download_speed), end=&#39;\r&#39;)
+                        downloaded_since_last = 0
+                        start_time = time.time()
+            print(progress_bar.format(100, gb_downloaded, gb_total, download_speed))
+            rename_file(unfinished_save_path, self.gguf_file_path)
+        else:
+            print(f&#34;File {self.gguf_file_path} already exists. Skipping download.&#34;)
+        return self.gguf_file_path
+    
+    def json_path(self) -&gt; str:
+        &#34;&#34;&#34;Get path for JSON metadata file.
+
+        Returns:
+            str: JSON file path
+        &#34;&#34;&#34;
+        return change_extension(self.gguf_file_path, &#34;.json&#34;)
+    
+    def save_json(self, replace_existing:bool=True) -&gt; str:
+        &#34;&#34;&#34;Save ModelData to JSON file.
+
+        Args:
+            replace_existing (bool, optional): Overwrite if exists. Defaults to True.
+
+        Returns:
+            str: JSON file path
+        &#34;&#34;&#34;
+        if replace_existing or not self.has_json():
+            save_json_file(self.json_path(), self.to_dict())
+        else:
+            print(f&#34;File {self.json_path()} already exists and replace_existing={replace_existing}. Skipping save.&#34;)
+        return self.json_path()
+    
+    @staticmethod
+    def from_json(json_file_path:str) -&gt; &#34;ModelData&#34;:
+        &#34;&#34;&#34;Create ModelData from JSON file.
+
+        Args:
+            json_file_path (str): Path to JSON file containing model data
+
+        Returns:
+            ModelData: ModelData object
+        &#34;&#34;&#34;
+        model_data = load_json_file(json_file_path)
+        return ModelData.from_dict(model_data)
+
+
+    @staticmethod
+    def from_url(url:str, save_dir:str, user_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;), ai_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;), system_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;),
+                  description:Optional[str] = None, keywords:Optional[list] = None) -&gt; &#34;ModelData&#34;:
+        &#34;&#34;&#34;Create ModelData from URL.
+
+        Args:
+            url (str): gguf URL
+            save_dir (str): Directory to save model
+            user_tags (Union[dict, list, set], optional): User markup tags. Defaults to (&#34;&#34;, &#34;&#34;).
+            ai_tags (Union[dict, list, set], optional): AI markup tags. Defaults to (&#34;&#34;, &#34;&#34;).
+            system_tags (Union[dict, list, set], optional): System markup tags. Defaults to (&#34;&#34;, &#34;&#34;).
+            description (Optional[str], optional): Model description. Defaults to None.
+            keywords (Optional[list], optional): List of keywords. Defaults to None.
+
+        Returns:
+            ModelData: ModelData object
+        &#34;&#34;&#34;
+        return ModelData(url, save_dir, user_tags, ai_tags, system_tags, description, keywords)
+
+    def model_path(self) -&gt; str:
+        &#34;&#34;&#34;Get model file path.
+        
+        Returns:
+            str: gguf file path
+        &#34;&#34;&#34;
+        return self.gguf_file_path
+
+    @staticmethod
+    def from_file(gguf_file_path:str, save_dir:Optional[str]=None, user_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;), ai_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;), system_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;),
+                  description:Optional[str] = None, keywords:Optional[list] = None) -&gt; &#34;ModelData&#34;:
+        &#34;&#34;&#34;Create ModelData from gguf file.
+
+        Args:
+            gguf_file_path (str): Path to gguf file
+            save_dir (Optional[str], optional): Directory to save. Defaults to None.
+            user_tags (Union[dict, list, set], optional): User markup tags. Defaults to (&#34;&#34;, &#34;&#34;).
+            ai_tags (Union[dict, list, set], optional): AI markup tags. Defaults to (&#34;&#34;, &#34;&#34;).
+            system_tags (Union[dict, list, set], optional): System markup tags. Defaults to (&#34;&#34;, &#34;&#34;).
+            description (Optional[str], optional): Model description. Defaults to None.
+            keywords (Optional[list], optional): List of keywords. Defaults to None.
+
+        Returns:
+            ModelData: ModelData object
+        &#34;&#34;&#34;        
+        #creates a model where url is also the file path
+        save_dir = get_directory(gguf_file_path) if save_dir is None else save_dir
+        url = gguf_file_path
+        return ModelData(url, save_dir, user_tags, ai_tags, system_tags, description, keywords)
+
+    def get_ai_tag_open(self) -&gt; str:
+        &#34;&#34;&#34;Get opening AI tag.
+        
+        Returns:
+            str: Opening AI tag
+        &#34;&#34;&#34;
+        return self.ai_tags[&#34;open&#34;]
+    
+    def get_ai_tag_close(self) -&gt; str:
+        &#34;&#34;&#34;Get closing AI tag.
+        
+        Returns:
+            str: Closing AI tag
+        &#34;&#34;&#34;
+        return self.ai_tags[&#34;close&#34;]
+    
+    def get_user_tag_open(self) -&gt; str:
+        &#34;&#34;&#34;Get opening user tag.
+        
+        Returns:
+            str: Opening user tag
+        &#34;&#34;&#34;
+        return self.user_tags[&#34;open&#34;]
+    
+    def get_user_tag_close(self) -&gt; str:
+        &#34;&#34;&#34;Get closing user tag.
+        
+        Returns:
+            str: Closing user tag
+        &#34;&#34;&#34;
+        return self.user_tags[&#34;close&#34;]
+    
+    def get_system_tag_open(self) -&gt; str:
+        &#34;&#34;&#34;Get opening system tag.
+        
+        Returns:
+            str: Opening system tag
+        &#34;&#34;&#34;
+        return self.system_tags[&#34;open&#34;]
+    
+    def get_system_tag_close(self) -&gt; str:
+        &#34;&#34;&#34;Get closing system tag.
+        
+        Returns:
+            str: Closing system tag
+        &#34;&#34;&#34;
+        return self.system_tags[&#34;close&#34;]
+    
+    def get_ai_tags(self) -&gt; list[str]:
+        &#34;&#34;&#34;Get list of AI tags.
+        
+        Returns:
+            list[str]: List of opening and closing AI tags
+        &#34;&#34;&#34;
+        return [self.get_ai_tag_open(), self.get_ai_tag_close()]
+    
+    def get_user_tags(self) -&gt; list[str]:
+        &#34;&#34;&#34;Get list of user tags.
+        
+        Returns:
+            list[str]: List of opening and closing user tags
+        &#34;&#34;&#34;
+        return [self.get_user_tag_open(), self.get_user_tag_close()]
+    
+    def get_system_tags(self) -&gt; list[str]:
+        &#34;&#34;&#34;Get list of system tags.
+        
+        Returns:
+            list[str]: List of opening and closing system tags
+        &#34;&#34;&#34;
+        return [self.get_system_tag_open(), self.get_system_tag_close()]
+    
+    def has_system_tags(self) -&gt; bool:
+        &#34;&#34;&#34;Check if system tags are set.
+        
+        Returns:
+            bool: True if system tags set, False otherwise
+        &#34;&#34;&#34;
+        if self.system_tags is None:
+            return False
+        elif self.system_tags[&#34;open&#34;] is None or self.system_tags[&#34;close&#34;] is None:
+            return False
+        else:
+            return True</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="gguf_modeldb.ModelData.from_dict"><code class="name flex">
+<span>def <span class="ident">from_dict</span></span>(<span>model_data: dict) ‑> <a title="gguf_modeldb.model_data.ModelData" href="model_data.html#gguf_modeldb.model_data.ModelData">ModelData</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create ModelData from dictionary.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>model_data</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Dictionary representation of ModelData</dd>
+</dl>
+<p>Needs to contain the following keys:
+"url": str,
+"save_dir": str,
+"user_tags": Union[dict, list, set],
+"ai_tags": Union[dict, list, set],
+and optionally:
+"description": str,
+"keywords": list,
+"system_tags": Union[dict, list, set]</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="gguf_modeldb.ModelData" href="#gguf_modeldb.ModelData">ModelData</a></code></dt>
+<dd>ModelData object</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_dict(model_data:dict) -&gt; &#34;ModelData&#34;:
+    &#34;&#34;&#34;Create ModelData from dictionary.
+
+    Args:
+        model_data (dict): Dictionary representation of ModelData
+        Needs to contain the following keys:
+        &#34;url&#34;: str,
+        &#34;save_dir&#34;: str,
+        &#34;user_tags&#34;: Union[dict, list, set],
+        &#34;ai_tags&#34;: Union[dict, list, set],
+        and optionally:
+        &#34;description&#34;: str,
+        &#34;keywords&#34;: list,
+        &#34;system_tags&#34;: Union[dict, list, set]
+
+    Returns:
+        ModelData: ModelData object
+    &#34;&#34;&#34;
+    url = model_data[&#34;url&#34;]
+    save_dir = model_data[&#34;save_dir&#34;]
+    description = model_data[&#34;description&#34;] if &#34;description&#34; in model_data else None
+    keywords = model_data[&#34;keywords&#34;] if &#34;keywords&#34; in model_data else None
+    user_tags = model_data[&#34;user_tags&#34;]
+    ai_tags = model_data[&#34;ai_tags&#34;]
+    system_tags = model_data[&#34;system_tags&#34;] if &#34;system_tags&#34; in model_data else None
+    new_model_data = ModelData(url, save_dir, user_tags, ai_tags, system_tags, description, keywords)
+    return new_model_data</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.from_file"><code class="name flex">
+<span>def <span class="ident">from_file</span></span>(<span>gguf_file_path: str, save_dir: Optional[str] = None, user_tags: Union[dict, list, set] = ('', ''), ai_tags: Union[dict, list, set] = ('', ''), system_tags: Union[dict, list, set] = ('', ''), description: Optional[str] = None, keywords: Optional[None] = None) ‑> <a title="gguf_modeldb.model_data.ModelData" href="model_data.html#gguf_modeldb.model_data.ModelData">ModelData</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create ModelData from gguf file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>gguf_file_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to gguf file</dd>
+<dt><strong><code>save_dir</code></strong> :&ensp;<code>Optional[str]</code>, optional</dt>
+<dd>Directory to save. Defaults to None.</dd>
+<dt><strong><code>user_tags</code></strong> :&ensp;<code>Union[dict, list, set]</code>, optional</dt>
+<dd>User markup tags. Defaults to ("", "").</dd>
+<dt><strong><code>ai_tags</code></strong> :&ensp;<code>Union[dict, list, set]</code>, optional</dt>
+<dd>AI markup tags. Defaults to ("", "").</dd>
+<dt><strong><code>system_tags</code></strong> :&ensp;<code>Union[dict, list, set]</code>, optional</dt>
+<dd>System markup tags. Defaults to ("", "").</dd>
+<dt><strong><code>description</code></strong> :&ensp;<code>Optional[str]</code>, optional</dt>
+<dd>Model description. Defaults to None.</dd>
+<dt><strong><code>keywords</code></strong> :&ensp;<code>Optional[list]</code>, optional</dt>
+<dd>List of keywords. Defaults to None.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="gguf_modeldb.ModelData" href="#gguf_modeldb.ModelData">ModelData</a></code></dt>
+<dd>ModelData object</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_file(gguf_file_path:str, save_dir:Optional[str]=None, user_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;), ai_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;), system_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;),
+              description:Optional[str] = None, keywords:Optional[list] = None) -&gt; &#34;ModelData&#34;:
+    &#34;&#34;&#34;Create ModelData from gguf file.
+
+    Args:
+        gguf_file_path (str): Path to gguf file
+        save_dir (Optional[str], optional): Directory to save. Defaults to None.
+        user_tags (Union[dict, list, set], optional): User markup tags. Defaults to (&#34;&#34;, &#34;&#34;).
+        ai_tags (Union[dict, list, set], optional): AI markup tags. Defaults to (&#34;&#34;, &#34;&#34;).
+        system_tags (Union[dict, list, set], optional): System markup tags. Defaults to (&#34;&#34;, &#34;&#34;).
+        description (Optional[str], optional): Model description. Defaults to None.
+        keywords (Optional[list], optional): List of keywords. Defaults to None.
+
+    Returns:
+        ModelData: ModelData object
+    &#34;&#34;&#34;        
+    #creates a model where url is also the file path
+    save_dir = get_directory(gguf_file_path) if save_dir is None else save_dir
+    url = gguf_file_path
+    return ModelData(url, save_dir, user_tags, ai_tags, system_tags, description, keywords)</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.from_json"><code class="name flex">
+<span>def <span class="ident">from_json</span></span>(<span>json_file_path: str) ‑> <a title="gguf_modeldb.model_data.ModelData" href="model_data.html#gguf_modeldb.model_data.ModelData">ModelData</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create ModelData from JSON file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>json_file_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to JSON file containing model data</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="gguf_modeldb.ModelData" href="#gguf_modeldb.ModelData">ModelData</a></code></dt>
+<dd>ModelData object</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_json(json_file_path:str) -&gt; &#34;ModelData&#34;:
+    &#34;&#34;&#34;Create ModelData from JSON file.
+
+    Args:
+        json_file_path (str): Path to JSON file containing model data
+
+    Returns:
+        ModelData: ModelData object
+    &#34;&#34;&#34;
+    model_data = load_json_file(json_file_path)
+    return ModelData.from_dict(model_data)</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.from_url"><code class="name flex">
+<span>def <span class="ident">from_url</span></span>(<span>url: str, save_dir: str, user_tags: Union[dict, list, set] = ('', ''), ai_tags: Union[dict, list, set] = ('', ''), system_tags: Union[dict, list, set] = ('', ''), description: Optional[str] = None, keywords: Optional[None] = None) ‑> <a title="gguf_modeldb.model_data.ModelData" href="model_data.html#gguf_modeldb.model_data.ModelData">ModelData</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Create ModelData from URL.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>gguf URL</dd>
+<dt><strong><code>save_dir</code></strong> :&ensp;<code>str</code></dt>
+<dd>Directory to save model</dd>
+<dt><strong><code>user_tags</code></strong> :&ensp;<code>Union[dict, list, set]</code>, optional</dt>
+<dd>User markup tags. Defaults to ("", "").</dd>
+<dt><strong><code>ai_tags</code></strong> :&ensp;<code>Union[dict, list, set]</code>, optional</dt>
+<dd>AI markup tags. Defaults to ("", "").</dd>
+<dt><strong><code>system_tags</code></strong> :&ensp;<code>Union[dict, list, set]</code>, optional</dt>
+<dd>System markup tags. Defaults to ("", "").</dd>
+<dt><strong><code>description</code></strong> :&ensp;<code>Optional[str]</code>, optional</dt>
+<dd>Model description. Defaults to None.</dd>
+<dt><strong><code>keywords</code></strong> :&ensp;<code>Optional[list]</code>, optional</dt>
+<dd>List of keywords. Defaults to None.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="gguf_modeldb.ModelData" href="#gguf_modeldb.ModelData">ModelData</a></code></dt>
+<dd>ModelData object</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_url(url:str, save_dir:str, user_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;), ai_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;), system_tags:Union[dict, list, set] = (&#34;&#34;, &#34;&#34;),
+              description:Optional[str] = None, keywords:Optional[list] = None) -&gt; &#34;ModelData&#34;:
+    &#34;&#34;&#34;Create ModelData from URL.
+
+    Args:
+        url (str): gguf URL
+        save_dir (str): Directory to save model
+        user_tags (Union[dict, list, set], optional): User markup tags. Defaults to (&#34;&#34;, &#34;&#34;).
+        ai_tags (Union[dict, list, set], optional): AI markup tags. Defaults to (&#34;&#34;, &#34;&#34;).
+        system_tags (Union[dict, list, set], optional): System markup tags. Defaults to (&#34;&#34;, &#34;&#34;).
+        description (Optional[str], optional): Model description. Defaults to None.
+        keywords (Optional[list], optional): List of keywords. Defaults to None.
+
+    Returns:
+        ModelData: ModelData object
+    &#34;&#34;&#34;
+    return ModelData(url, save_dir, user_tags, ai_tags, system_tags, description, keywords)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="gguf_modeldb.ModelData.download_gguf"><code class="name flex">
+<span>def <span class="ident">download_gguf</span></span>(<span>self, force_redownload: bool = False) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Download gguf model file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>force_redownload</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Force redownload if exists. Defaults to False.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>File path of downloaded file</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def download_gguf(self, force_redownload:bool=False) -&gt; str:
+    &#34;&#34;&#34;Download gguf model file.
+
+    Args:
+        force_redownload (bool, optional): Force redownload if exists. Defaults to False.
+
+    Returns:
+        str: File path of downloaded file
+    &#34;&#34;&#34;
+    print(f&#34;Preparing {self.gguf_file_path}\n for {self.name} : {self.model_quantization}...&#34;)
+    if not does_file_exist(self.gguf_file_path) or force_redownload:
+        print(f&#34;Downloading {self.name} : {self.model_quantization}...&#34;)
+        gguf_download_url = self._hf_url_to_download_url(self.gguf_url)
+        response = requests.get(gguf_download_url, stream=True)
+        total_size = int(response.headers.get(&#39;content-length&#39;, 0))
+        block_size = 1024000  # 100 KB
+        progress_bar = f&#34;Please wait, downloading {self.name} : {self.model_quantization}: {{0:0.2f}}% | {{1:0.3f}}/{{2:0.3f}} GB) | {{3:0.3f}} MB/s&#34;
+        unfinished_save_path = self.gguf_file_path + &#34;.unfinished&#34;
+        with open(unfinished_save_path, &#34;wb&#34;) as f:
+            downloaded_size = 0
+            start_time = time.time()
+            elapsed_time = 0
+            downloaded_since_last = 0
+            for data in response.iter_content(block_size):
+                downloaded_size += len(data)
+                downloaded_since_last += len(data)
+                f.write(data)
+                elapsed_time = time.time() - start_time
+                download_speed = (downloaded_since_last*10/(1024**3)) / elapsed_time if elapsed_time &gt; 0 else 0
+                progress = downloaded_size / total_size * 100
+                gb_downloaded = downloaded_size/(1024**3)
+                gb_total = total_size/(1024**3)
+                if elapsed_time &gt;= 1:
+                    print(progress_bar.format(progress, gb_downloaded, gb_total, download_speed), end=&#39;\r&#39;)
+                    downloaded_since_last = 0
+                    start_time = time.time()
+        print(progress_bar.format(100, gb_downloaded, gb_total, download_speed))
+        rename_file(unfinished_save_path, self.gguf_file_path)
+    else:
+        print(f&#34;File {self.gguf_file_path} already exists. Skipping download.&#34;)
+    return self.gguf_file_path</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.get_ai_tag_close"><code class="name flex">
+<span>def <span class="ident">get_ai_tag_close</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get closing AI tag.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>Closing AI tag</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_ai_tag_close(self) -&gt; str:
+    &#34;&#34;&#34;Get closing AI tag.
+    
+    Returns:
+        str: Closing AI tag
+    &#34;&#34;&#34;
+    return self.ai_tags[&#34;close&#34;]</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.get_ai_tag_open"><code class="name flex">
+<span>def <span class="ident">get_ai_tag_open</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get opening AI tag.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>Opening AI tag</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_ai_tag_open(self) -&gt; str:
+    &#34;&#34;&#34;Get opening AI tag.
+    
+    Returns:
+        str: Opening AI tag
+    &#34;&#34;&#34;
+    return self.ai_tags[&#34;open&#34;]</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.get_ai_tags"><code class="name flex">
+<span>def <span class="ident">get_ai_tags</span></span>(<span>self) ‑> list[str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get list of AI tags.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[str]</code></dt>
+<dd>List of opening and closing AI tags</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_ai_tags(self) -&gt; list[str]:
+    &#34;&#34;&#34;Get list of AI tags.
+    
+    Returns:
+        list[str]: List of opening and closing AI tags
+    &#34;&#34;&#34;
+    return [self.get_ai_tag_open(), self.get_ai_tag_close()]</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.get_system_tag_close"><code class="name flex">
+<span>def <span class="ident">get_system_tag_close</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get closing system tag.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>Closing system tag</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_system_tag_close(self) -&gt; str:
+    &#34;&#34;&#34;Get closing system tag.
+    
+    Returns:
+        str: Closing system tag
+    &#34;&#34;&#34;
+    return self.system_tags[&#34;close&#34;]</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.get_system_tag_open"><code class="name flex">
+<span>def <span class="ident">get_system_tag_open</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get opening system tag.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>Opening system tag</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_system_tag_open(self) -&gt; str:
+    &#34;&#34;&#34;Get opening system tag.
+    
+    Returns:
+        str: Opening system tag
+    &#34;&#34;&#34;
+    return self.system_tags[&#34;open&#34;]</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.get_system_tags"><code class="name flex">
+<span>def <span class="ident">get_system_tags</span></span>(<span>self) ‑> list[str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get list of system tags.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[str]</code></dt>
+<dd>List of opening and closing system tags</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_system_tags(self) -&gt; list[str]:
+    &#34;&#34;&#34;Get list of system tags.
+    
+    Returns:
+        list[str]: List of opening and closing system tags
+    &#34;&#34;&#34;
+    return [self.get_system_tag_open(), self.get_system_tag_close()]</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.get_user_tag_close"><code class="name flex">
+<span>def <span class="ident">get_user_tag_close</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get closing user tag.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>Closing user tag</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_user_tag_close(self) -&gt; str:
+    &#34;&#34;&#34;Get closing user tag.
+    
+    Returns:
+        str: Closing user tag
+    &#34;&#34;&#34;
+    return self.user_tags[&#34;close&#34;]</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.get_user_tag_open"><code class="name flex">
+<span>def <span class="ident">get_user_tag_open</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get opening user tag.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>Opening user tag</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_user_tag_open(self) -&gt; str:
+    &#34;&#34;&#34;Get opening user tag.
+    
+    Returns:
+        str: Opening user tag
+    &#34;&#34;&#34;
+    return self.user_tags[&#34;open&#34;]</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.get_user_tags"><code class="name flex">
+<span>def <span class="ident">get_user_tags</span></span>(<span>self) ‑> list[str]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get list of user tags.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[str]</code></dt>
+<dd>List of opening and closing user tags</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_user_tags(self) -&gt; list[str]:
+    &#34;&#34;&#34;Get list of user tags.
+    
+    Returns:
+        list[str]: List of opening and closing user tags
+    &#34;&#34;&#34;
+    return [self.get_user_tag_open(), self.get_user_tag_close()]</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.has_json"><code class="name flex">
+<span>def <span class="ident">has_json</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if JSON metadata file exists.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if exists, False otherwise</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_json(self) -&gt; bool:
+    &#34;&#34;&#34;Check if JSON metadata file exists.
+
+    Returns:
+        bool: True if exists, False otherwise
+    &#34;&#34;&#34;
+    return does_file_exist(self.json_path())</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.has_system_tags"><code class="name flex">
+<span>def <span class="ident">has_system_tags</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if system tags are set.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if system tags set, False otherwise</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_system_tags(self) -&gt; bool:
+    &#34;&#34;&#34;Check if system tags are set.
+    
+    Returns:
+        bool: True if system tags set, False otherwise
+    &#34;&#34;&#34;
+    if self.system_tags is None:
+        return False
+    elif self.system_tags[&#34;open&#34;] is None or self.system_tags[&#34;close&#34;] is None:
+        return False
+    else:
+        return True</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.is_downloaded"><code class="name flex">
+<span>def <span class="ident">is_downloaded</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Check if model file is downloaded.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if downloaded, False otherwise</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_downloaded(self) -&gt; bool:
+    &#34;&#34;&#34;Check if model file is downloaded.
+    
+    Returns:
+        bool: True if downloaded, False otherwise
+    &#34;&#34;&#34;
+    return does_file_exist(self.gguf_file_path)</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.json_path"><code class="name flex">
+<span>def <span class="ident">json_path</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get path for JSON metadata file.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>JSON file path</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def json_path(self) -&gt; str:
+    &#34;&#34;&#34;Get path for JSON metadata file.
+
+    Returns:
+        str: JSON file path
+    &#34;&#34;&#34;
+    return change_extension(self.gguf_file_path, &#34;.json&#34;)</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.model_path"><code class="name flex">
+<span>def <span class="ident">model_path</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get model file path.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>gguf file path</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def model_path(self) -&gt; str:
+    &#34;&#34;&#34;Get model file path.
+    
+    Returns:
+        str: gguf file path
+    &#34;&#34;&#34;
+    return self.gguf_file_path</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.save_json"><code class="name flex">
+<span>def <span class="ident">save_json</span></span>(<span>self, replace_existing: bool = True) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Save ModelData to JSON file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>replace_existing</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Overwrite if exists. Defaults to True.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>JSON file path</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def save_json(self, replace_existing:bool=True) -&gt; str:
+    &#34;&#34;&#34;Save ModelData to JSON file.
+
+    Args:
+        replace_existing (bool, optional): Overwrite if exists. Defaults to True.
+
+    Returns:
+        str: JSON file path
+    &#34;&#34;&#34;
+    if replace_existing or not self.has_json():
+        save_json_file(self.json_path(), self.to_dict())
+    else:
+        print(f&#34;File {self.json_path()} already exists and replace_existing={replace_existing}. Skipping save.&#34;)
+    return self.json_path()</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.set_ai_tags"><code class="name flex">
+<span>def <span class="ident">set_ai_tags</span></span>(<span>self, ai_tags: Union[dict, set[str], list[str], tuple[str]]) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set AI markup tags.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ai_tags</code></strong> :&ensp;<code>Union[dict, set, list, tuple]</code></dt>
+<dd>AI tags</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_ai_tags(self, ai_tags:Union[dict, set[str], list[str], tuple[str]]) -&gt; None:
+    &#34;&#34;&#34;Set AI markup tags.
+    Args:
+        ai_tags (Union[dict, set, list, tuple]): AI tags
+    &#34;&#34;&#34;
+    if isinstance(ai_tags, dict):
+        if &#34;open&#34; in ai_tags and &#34;close&#34; in ai_tags:
+            self.ai_tags = ai_tags
+        else:
+            raise ValueError(f&#34;Invalid user tags: {ai_tags}, for dict tags both &#39;open&#39; and &#39;close&#39; keys must be present.&#34;)
+    elif isinstance(ai_tags, set) or isinstance(ai_tags, list) or isinstance(ai_tags, tuple):
+        self.ai_tags = {
+            &#34;open&#34;: ai_tags[0],
+            &#34;close&#34;: ai_tags[1]
+        }
+    else:
+        raise TypeError(f&#34;Invalid type for user tags: {type(ai_tags)}, must be dict, set or list.&#34;)</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.set_save_dir"><code class="name flex">
+<span>def <span class="ident">set_save_dir</span></span>(<span>self, save_dir: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set save directory and update save file path for the model.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>save_dir</code></strong> :&ensp;<code>str</code></dt>
+<dd>Save directory</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_save_dir(self, save_dir:str) -&gt; None:
+    &#34;&#34;&#34;Set save directory and update save file path for the model.
+
+    Args:
+        save_dir (str): Save directory
+    &#34;&#34;&#34;
+    self.save_dir = save_dir
+    self.gguf_file_path = self._url_to_file_path(save_dir, self.gguf_url)</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.set_system_tags"><code class="name flex">
+<span>def <span class="ident">set_system_tags</span></span>(<span>self, system_tags: Union[dict, set[str], list[str], tuple[str]]) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set system markup tags.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>system_tags</code></strong> :&ensp;<code>Union[dict, set, list, tuple]</code></dt>
+<dd>System tags</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_system_tags(self, system_tags:Union[dict, set[str], list[str], tuple[str]]) -&gt; None:
+    &#34;&#34;&#34;Set system markup tags.
+    Args:
+        system_tags (Union[dict, set, list, tuple]): System tags
+    &#34;&#34;&#34;
+    if isinstance(system_tags, dict):
+        if &#34;open&#34; in system_tags and &#34;close&#34; in system_tags:
+            self.system_tags = system_tags
+        else:
+            raise ValueError(f&#34;Invalid system tags: {system_tags}, for dict tags both &#39;open&#39; and &#39;close&#39; keys must be present.&#34;)
+    elif isinstance(system_tags, set) or isinstance(system_tags, list) or isinstance(system_tags, tuple):
+        self.system_tags = {
+            &#34;open&#34;: system_tags[0],
+            &#34;close&#34;: system_tags[1]
+        }
+    else:
+        raise TypeError(f&#34;Invalid type for system tags: {type(system_tags)}, must be dict, set or list.&#34;)</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.set_tags"><code class="name flex">
+<span>def <span class="ident">set_tags</span></span>(<span>self, ai_tags: Union[dict, set[str], list[str], tuple[str], ForwardRef(None)], user_tags: Union[dict, set[str], list[str], tuple[str], ForwardRef(None)], system_tags: Union[dict, set[str], list[str], tuple[str], ForwardRef(None)]) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets any of the provided tags.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>ai_tags</code></strong> :&ensp;<code>Optional[Union[dict, set, list, tuple]]</code></dt>
+<dd>AI tags</dd>
+<dt><strong><code>user_tags</code></strong> :&ensp;<code>Optional[Union[dict, set, list, tuple]]</code></dt>
+<dd>User tags</dd>
+<dt><strong><code>system_tags</code></strong> :&ensp;<code>Optional[Union[dict, set, list, tuple]]</code></dt>
+<dd>System tags</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_tags(self, 
+             ai_tags:Optional[Union[dict, set[str], list[str], tuple[str]]],
+             user_tags:Optional[Union[dict, set[str], list[str], tuple[str]]],
+             system_tags:Optional[Union[dict, set[str], list[str], tuple[str]]],
+             ) -&gt; None:
+    &#34;&#34;&#34;Sets any of the provided tags.
+    Args:
+        ai_tags (Optional[Union[dict, set, list, tuple]]): AI tags
+        user_tags (Optional[Union[dict, set, list, tuple]]): User tags
+        system_tags (Optional[Union[dict, set, list, tuple]]): System tags
+    &#34;&#34;&#34;
+    if ai_tags is not None:
+        self.set_ai_tags(ai_tags)
+    if user_tags is not None:
+        self.set_user_tags(user_tags)
+    if system_tags is not None:
+        self.set_system_tags(system_tags)</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.set_user_tags"><code class="name flex">
+<span>def <span class="ident">set_user_tags</span></span>(<span>self, user_tags: Union[dict, set[str], list[str], tuple[str]]) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Set user markup tags.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>user_tags</code></strong> :&ensp;<code>Union[dict, set, list, tuple]</code></dt>
+<dd>User tags</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_user_tags(self, user_tags:Union[dict, set[str], list[str], tuple[str]]) -&gt; None:
+    &#34;&#34;&#34;Set user markup tags.
+    Args:
+        user_tags (Union[dict, set, list, tuple]): User tags
+    &#34;&#34;&#34;
+    if isinstance(user_tags, dict):
+        if &#34;open&#34; in user_tags and &#34;close&#34; in user_tags:
+            self.user_tags = user_tags
+        else:
+            raise ValueError(f&#34;Invalid user tags: {user_tags}, for dict tags both &#39;open&#39; and &#39;close&#39; keys must be present.&#34;)
+    elif isinstance(user_tags, set) or isinstance(user_tags, list) or isinstance(user_tags, tuple):
+        self.user_tags = {
+            &#34;open&#34;: user_tags[0],
+            &#34;close&#34;: user_tags[1]
+        }
+    else:
+        raise TypeError(f&#34;Invalid type for user tags: {type(user_tags)}, must be dict, set or list.&#34;)</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelData.to_dict"><code class="name flex">
+<span>def <span class="ident">to_dict</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert ModelData to dictionary.
+"url": str,
+"save_dir": str,
+"user_tags": Union[dict, list, set],
+"ai_tags": Union[dict, list, set],
+"description": str,
+"keywords": list,
+"system_tags": Union[dict, list, set]</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary representation of ModelData</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_dict(self):
+    &#34;&#34;&#34;Convert ModelData to dictionary.
+        &#34;url&#34;: str,
+        &#34;save_dir&#34;: str,
+        &#34;user_tags&#34;: Union[dict, list, set],
+        &#34;ai_tags&#34;: Union[dict, list, set],
+        &#34;description&#34;: str,
+        &#34;keywords&#34;: list,
+        &#34;system_tags&#34;: Union[dict, list, set]
+
+    Returns:
+        dict: Dictionary representation of ModelData
+    &#34;&#34;&#34;
+    model_data = {
+        &#34;url&#34;: self.gguf_url,
+        &#34;gguf_file_path&#34;: self.gguf_file_path,
+        &#34;model_name&#34;: self.name,
+        &#34;model_quantization&#34;: self.model_quantization, 
+        &#34;description&#34;: self.description,
+        &#34;keywords&#34;: self.keywords,
+        &#34;user_tags&#34;: self.user_tags,
+        &#34;ai_tags&#34;: self.ai_tags,
+        &#34;system_tags&#34;: self.system_tags,
+        &#34;save_dir&#34;: self.save_dir,
+    }
+    return model_data</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="gguf_modeldb.db" href="db.html">gguf_modeldb.db</a></code></li>
+<li><code><a title="gguf_modeldb.db_settings" href="db_settings.html">gguf_modeldb.db_settings</a></code></li>
+<li><code><a title="gguf_modeldb.model_data" href="model_data.html">gguf_modeldb.model_data</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="gguf_modeldb.ModelDB" href="#gguf_modeldb.ModelDB">ModelDB</a></code></h4>
+<ul class="">
+<li><code><a title="gguf_modeldb.ModelDB.add_model_by_json" href="#gguf_modeldb.ModelDB.add_model_by_json">add_model_by_json</a></code></li>
+<li><code><a title="gguf_modeldb.ModelDB.add_model_by_url" href="#gguf_modeldb.ModelDB.add_model_by_url">add_model_by_url</a></code></li>
+<li><code><a title="gguf_modeldb.ModelDB.add_model_data" href="#gguf_modeldb.ModelDB.add_model_data">add_model_data</a></code></li>
+<li><code><a title="gguf_modeldb.ModelDB.find_model" href="#gguf_modeldb.ModelDB.find_model">find_model</a></code></li>
+<li><code><a title="gguf_modeldb.ModelDB.find_models" href="#gguf_modeldb.ModelDB.find_models">find_models</a></code></li>
+<li><code><a title="gguf_modeldb.ModelDB.get_model_by_url" href="#gguf_modeldb.ModelDB.get_model_by_url">get_model_by_url</a></code></li>
+<li><code><a title="gguf_modeldb.ModelDB.import_models_from_repo" href="#gguf_modeldb.ModelDB.import_models_from_repo">import_models_from_repo</a></code></li>
+<li><code><a title="gguf_modeldb.ModelDB.import_verified_model" href="#gguf_modeldb.ModelDB.import_verified_model">import_verified_model</a></code></li>
+<li><code><a title="gguf_modeldb.ModelDB.list_available_models" href="#gguf_modeldb.ModelDB.list_available_models">list_available_models</a></code></li>
+<li><code><a title="gguf_modeldb.ModelDB.list_models_quantizations" href="#gguf_modeldb.ModelDB.list_models_quantizations">list_models_quantizations</a></code></li>
+<li><code><a title="gguf_modeldb.ModelDB.load_models" href="#gguf_modeldb.ModelDB.load_models">load_models</a></code></li>
+<li><code><a title="gguf_modeldb.ModelDB.load_models_data_from_repo" href="#gguf_modeldb.ModelDB.load_models_data_from_repo">load_models_data_from_repo</a></code></li>
+<li><code><a title="gguf_modeldb.ModelDB.save_all_models" href="#gguf_modeldb.ModelDB.save_all_models">save_all_models</a></code></li>
+<li><code><a title="gguf_modeldb.ModelDB.set_model_db_dir" href="#gguf_modeldb.ModelDB.set_model_db_dir">set_model_db_dir</a></code></li>
+<li><code><a title="gguf_modeldb.ModelDB.show_db_info" href="#gguf_modeldb.ModelDB.show_db_info">show_db_info</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="gguf_modeldb.ModelData" href="#gguf_modeldb.ModelData">ModelData</a></code></h4>
+<ul class="">
+<li><code><a title="gguf_modeldb.ModelData.download_gguf" href="#gguf_modeldb.ModelData.download_gguf">download_gguf</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.from_dict" href="#gguf_modeldb.ModelData.from_dict">from_dict</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.from_file" href="#gguf_modeldb.ModelData.from_file">from_file</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.from_json" href="#gguf_modeldb.ModelData.from_json">from_json</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.from_url" href="#gguf_modeldb.ModelData.from_url">from_url</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.get_ai_tag_close" href="#gguf_modeldb.ModelData.get_ai_tag_close">get_ai_tag_close</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.get_ai_tag_open" href="#gguf_modeldb.ModelData.get_ai_tag_open">get_ai_tag_open</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.get_ai_tags" href="#gguf_modeldb.ModelData.get_ai_tags">get_ai_tags</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.get_system_tag_close" href="#gguf_modeldb.ModelData.get_system_tag_close">get_system_tag_close</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.get_system_tag_open" href="#gguf_modeldb.ModelData.get_system_tag_open">get_system_tag_open</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.get_system_tags" href="#gguf_modeldb.ModelData.get_system_tags">get_system_tags</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.get_user_tag_close" href="#gguf_modeldb.ModelData.get_user_tag_close">get_user_tag_close</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.get_user_tag_open" href="#gguf_modeldb.ModelData.get_user_tag_open">get_user_tag_open</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.get_user_tags" href="#gguf_modeldb.ModelData.get_user_tags">get_user_tags</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.has_json" href="#gguf_modeldb.ModelData.has_json">has_json</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.has_system_tags" href="#gguf_modeldb.ModelData.has_system_tags">has_system_tags</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.is_downloaded" href="#gguf_modeldb.ModelData.is_downloaded">is_downloaded</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.json_path" href="#gguf_modeldb.ModelData.json_path">json_path</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.model_path" href="#gguf_modeldb.ModelData.model_path">model_path</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.save_json" href="#gguf_modeldb.ModelData.save_json">save_json</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.set_ai_tags" href="#gguf_modeldb.ModelData.set_ai_tags">set_ai_tags</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.set_save_dir" href="#gguf_modeldb.ModelData.set_save_dir">set_save_dir</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.set_system_tags" href="#gguf_modeldb.ModelData.set_system_tags">set_system_tags</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.set_tags" href="#gguf_modeldb.ModelData.set_tags">set_tags</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.set_user_tags" href="#gguf_modeldb.ModelData.set_user_tags">set_user_tags</a></code></li>
+<li><code><a title="gguf_modeldb.ModelData.to_dict" href="#gguf_modeldb.ModelData.to_dict">to_dict</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
