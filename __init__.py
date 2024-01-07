@@ -1,6 +1,6 @@
-from .model_db import AIMessages, ModelDB, ModelData
+from .model_db import ModelDB, ModelData
 
-__all__ = ['ModelDB', 'AIMessages', 'ModelData']
+__all__ = ['ModelDB', 'ModelData']
 # print(f"""
 # glai
 # GGUF LLAMA AI - Package for simplified text generation with Llama models quantized to GGUF format is loaded.
