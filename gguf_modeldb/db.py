@@ -2,7 +2,7 @@ import bs4
 import requests
 from typing import Union, Optional
 
-from util_helper.file_handler import create_dir, list_files_in_dir
+from util_helper.file_handler import create_dir, list_files_in_dir, copy_large_file
 from util_helper.compare_strings import compare_two_strings
 from .model_data import ModelData
 from .db_settings import VERIFIED_MODELS_DB_DIR
@@ -286,6 +286,35 @@ class ModelDB:
             model_data.save_json(replace_existing=replace_existing)
         self.load_models()
     
+
+    def import_verified_model(self, 
+                              name_search:Optional[str]=None,
+                              quantization_search:Optional[str]=None,
+                              keywords_search:Optional[str]=None,
+                              copy_gguf:bool=True) -> None:
+        """Import a verified model from the verified model database with ready configurations into your selected db dir.
+        Use this to selectively add models from the verified model database to your own database.
+        Models inlcude official dolphin, mistral, mixtral, solar and zephyr models in all available quantizations. 
+        Args:
+            name_search (Optional[str], optional): Search query for name. Defaults to None.
+            quantization_search (Optional[str], optional): Search query for quantization. Defaults to None.
+            keywords_search (Optional[str], optional): Search query for keywords. Defaults to None.
+        """
+        if self.gguf_db_dir == VERIFIED_MODELS_DB_DIR:
+            print("Cannot import verified model to the default database directory. All models should be already available here.")
+        else:
+            vmdb = ModelDB()
+            model = vmdb.find_model(name_search, quantization_search, keywords_search)
+            if copy_gguf and model.is_downloaded():
+                source_file = model.gguf_file_path
+                target_file = model.gguf_file_path.replace(vmdb.gguf_db_dir, self.gguf_db_dir)
+                print(f"Copying {source_file} to {target_file}...")
+                copy_large_file(source_file, target_file)
+
+            model.set_save_dir(self.gguf_db_dir)
+            model.save_json()
+            self.load_models()
+
     def list_available_models(self) -> list[str]:
         """Get a list of available model names.
 

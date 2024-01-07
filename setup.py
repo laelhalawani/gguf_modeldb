@@ -9,6 +9,7 @@ setup(
     install_requires=[
         'requests>=2.31.0',
         'beautifulsoup4>=4.9.3',
+        'util_helper==0.0.4'
     ],
     package_data={'gguf_modeldb': ['gguf_models/*.json']},
     include_package_data=True,
