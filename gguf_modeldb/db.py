@@ -63,7 +63,7 @@ class ModelDB:
     def load_models(self) -> None:
         """Load ModelData objects from the database directory."""
         self.models = []
-        files = list_files_in_dir(self.gguf_db_dir, include_directories=False, include_files=True, only_with_extensions=[".json"])
+        files = list_files_in_dir(VERIFIED_MODELS_DB_DIR, False, True, [".json"], absolute=True)
         for file in files:
             try:
                 model_data = ModelData.from_json(file)
