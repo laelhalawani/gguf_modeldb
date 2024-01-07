@@ -151,8 +151,10 @@ class ModelDB:
             Optional[ModelData]: Top matching ModelData object or None
         """
         sorted_models = self.find_models(name_query, quantization_query, keywords_query)
-        if sorted_models is None:
-            return None
+        if sorted_models is None or len(sorted_models) == 0:
+            if len(self.models) == 0:
+                print(f"There were no models to be searched. Try importing a verified model or using the defualt db dir.")
+            raise Exception(f"Could not find a model matching the query: {name_query} {quantization_query} {keywords_query}")
         else:
             #print(f"Found {len(sorted_models)} models.")
             #print(sorted_models)
