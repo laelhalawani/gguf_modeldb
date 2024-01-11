@@ -166,3 +166,6 @@ cython_debug/
 *.gguf
 *.bin
 *.unfinished
+
+dev/
+.vscode/settings.json
