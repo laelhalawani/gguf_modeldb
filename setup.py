@@ -4,7 +4,7 @@ with open("./README.md", "r") as fh:
     long_description = fh.read()
 setup(
     name="gguf_modeldb",
-    version="0.0.1a4",
+    version="0.0.1",
     packages=find_packages(),
     install_requires=[
         'requests>=2.31.0',
@@ -15,9 +15,9 @@ setup(
     include_package_data=True,
     author="Łael Al-Halawani",
     author_email="laelhalawani@gmail.com",
-    description="A Llama2 quantized gguf model db with over 50 preconfigured models downloadable in one line, easly add your own models or adjust settings. Don't struggle with manual downloads again.",
+    description="A Llama2 quantized gguf model db with over 80 preconfigured models downloadable in one line, easly add your own models or adjust settings. Don't struggle with manual downloads again.",
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "Intended Audience :: Education",
         "Intended Audience :: Information Technology",
