@@ -78,14 +78,15 @@ class ModelDB:
     def find_models(self, name_query:Optional[str]=None, 
                    quantization_query:Optional[str]=None, 
                    keywords_query:Optional[str]=None,
-                   treshold:float=0.6) -> Union[None, list]:
+                   treshold:float=0.6,
+                   only_downloaded:bool=False) -> Union[None, list]:
         """Search for models based on name, quantization, and keywords.
 
         Args:
             name_query (str, optional): Search query for name
             quantization_query (str, optional): Search query for quantization 
             keywords_query (str, optional): Search query for keywords
-            treshold (float, optional): Minimum score threshold. Defaults to 0.6.
+            treshold (float, optional): Minimum similarity score threshold. Defaults to 0.6.
 
         Returns:
             Union[None, list]: Sorted list of models exceeding threshold,
@@ -132,6 +133,8 @@ class ModelDB:
         sorted_models = sorted(scoring_models_dict.items(), key=lambda x: x[1]["score"], reverse=True)
         #keep just the list of model data
         sorted_models = [x[1]["model"] for x in sorted_models]
+        if only_downloaded:
+            sorted_models = [x for x in sorted_models if x.is_downloaded()]
         #print(f"Found {len(sorted_models)} models.")
         #print(sorted_models)
         return sorted_models
@@ -139,6 +142,7 @@ class ModelDB:
     def find_model(self, name_query:Optional[str]=None, 
                    quantization_query:Optional[str]=None, 
                    keywords_query:Optional[str]=None,
+                   only_downloaded:bool=False
                    ) -> Optional[ModelData]:
         """Find top matching model based on queries.
 
@@ -150,7 +154,7 @@ class ModelDB:
         Returns:
             Optional[ModelData]: Top matching ModelData object or None
         """
-        sorted_models = self.find_models(name_query, quantization_query, keywords_query)
+        sorted_models = self.find_models(name_query, quantization_query, keywords_query, only_downloaded=only_downloaded)
         if sorted_models is None or len(sorted_models) == 0:
             if len(self.models) == 0:
                 print(f"There were no models to be searched. Try importing a verified model or using the defualt db dir.")
@@ -172,6 +176,21 @@ class ModelDB:
         for model in self.models:
             model:ModelData = model
             if model.gguf_url == url:
+                return model
+        return None
+    
+    def get_model_by_gguf_path(self, gguf_path:str) -> Optional[ModelData]:
+        """Get ModelData by exact ggUF path match.
+
+        Args:
+            gguf_path (str): ggUF path
+
+        Returns:
+            Optional[ModelData]: Matching ModelData or None if not found
+        """
+        for model in self.models:
+            model:ModelData = model
+            if model.gguf_file_path == gguf_path:
                 return model
         return None
         
@@ -308,15 +327,20 @@ class ModelDB:
             print("Cannot import verified model to the default database directory. All models should be already available here.")
         else:
             vmdb = ModelDB()
-            model = vmdb.find_model(name_search, quantization_search, keywords_search)
-            if copy_gguf and model.is_downloaded():
-                source_file = model.gguf_file_path
-                target_file = model.gguf_file_path.replace(vmdb.gguf_db_dir, self.gguf_db_dir)
-                print(f"Copying {source_file} to {target_file}...")
-                copy_large_file(source_file, target_file)
-
-            model.set_save_dir(self.gguf_db_dir)
-            model.save_json()
+            if name_search is None and quantization_search is None and keywords_search is None:
+                print(f"Importing all verified models to {self.gguf_db_dir}...")
+                models = vmdb.models
+            else:
+                print(f"Importing a verified model matching {name_search} {quantization_search} {keywords_search} to {self.gguf_db_dir}...")
+                models = [vmdb.find_model(name_search, quantization_search, keywords_search)]
+            for model in models:
+                if copy_gguf and model.is_downloaded():
+                    source_file = model.gguf_file_path
+                    target_file = model.gguf_file_path.replace(vmdb.gguf_db_dir, self.gguf_db_dir)
+                    print(f"Copying {source_file} to {target_file}...")
+                    copy_large_file(source_file, target_file)
+                model.set_save_dir(self.gguf_db_dir)
+                model.save_json()
             self.load_models()
 
     def list_available_models(self) -> list[str]:

@@ -156,14 +156,15 @@ and interfacing with HuggingFace to import models.</p>
     def find_models(self, name_query:Optional[str]=None, 
                    quantization_query:Optional[str]=None, 
                    keywords_query:Optional[str]=None,
-                   treshold:float=0.6) -&gt; Union[None, list]:
+                   treshold:float=0.6,
+                   only_downloaded:bool=False) -&gt; Union[None, list]:
         &#34;&#34;&#34;Search for models based on name, quantization, and keywords.
 
         Args:
             name_query (str, optional): Search query for name
             quantization_query (str, optional): Search query for quantization 
             keywords_query (str, optional): Search query for keywords
-            treshold (float, optional): Minimum score threshold. Defaults to 0.6.
+            treshold (float, optional): Minimum similarity score threshold. Defaults to 0.6.
 
         Returns:
             Union[None, list]: Sorted list of models exceeding threshold,
@@ -210,6 +211,8 @@ and interfacing with HuggingFace to import models.</p>
         sorted_models = sorted(scoring_models_dict.items(), key=lambda x: x[1][&#34;score&#34;], reverse=True)
         #keep just the list of model data
         sorted_models = [x[1][&#34;model&#34;] for x in sorted_models]
+        if only_downloaded:
+            sorted_models = [x for x in sorted_models if x.is_downloaded()]
         #print(f&#34;Found {len(sorted_models)} models.&#34;)
         #print(sorted_models)
         return sorted_models
@@ -217,6 +220,7 @@ and interfacing with HuggingFace to import models.</p>
     def find_model(self, name_query:Optional[str]=None, 
                    quantization_query:Optional[str]=None, 
                    keywords_query:Optional[str]=None,
+                   only_downloaded:bool=False
                    ) -&gt; Optional[ModelData]:
         &#34;&#34;&#34;Find top matching model based on queries.
 
@@ -228,7 +232,7 @@ and interfacing with HuggingFace to import models.</p>
         Returns:
             Optional[ModelData]: Top matching ModelData object or None
         &#34;&#34;&#34;
-        sorted_models = self.find_models(name_query, quantization_query, keywords_query)
+        sorted_models = self.find_models(name_query, quantization_query, keywords_query, only_downloaded=only_downloaded)
         if sorted_models is None or len(sorted_models) == 0:
             if len(self.models) == 0:
                 print(f&#34;There were no models to be searched. Try importing a verified model or using the defualt db dir.&#34;)
@@ -250,6 +254,21 @@ and interfacing with HuggingFace to import models.</p>
         for model in self.models:
             model:ModelData = model
             if model.gguf_url == url:
+                return model
+        return None
+    
+    def get_model_by_gguf_path(self, gguf_path:str) -&gt; Optional[ModelData]:
+        &#34;&#34;&#34;Get ModelData by exact ggUF path match.
+
+        Args:
+            gguf_path (str): ggUF path
+
+        Returns:
+            Optional[ModelData]: Matching ModelData or None if not found
+        &#34;&#34;&#34;
+        for model in self.models:
+            model:ModelData = model
+            if model.gguf_file_path == gguf_path:
                 return model
         return None
         
@@ -386,15 +405,20 @@ and interfacing with HuggingFace to import models.</p>
             print(&#34;Cannot import verified model to the default database directory. All models should be already available here.&#34;)
         else:
             vmdb = ModelDB()
-            model = vmdb.find_model(name_search, quantization_search, keywords_search)
-            if copy_gguf and model.is_downloaded():
-                source_file = model.gguf_file_path
-                target_file = model.gguf_file_path.replace(vmdb.gguf_db_dir, self.gguf_db_dir)
-                print(f&#34;Copying {source_file} to {target_file}...&#34;)
-                copy_large_file(source_file, target_file)
-
-            model.set_save_dir(self.gguf_db_dir)
-            model.save_json()
+            if name_search is None and quantization_search is None and keywords_search is None:
+                print(f&#34;Importing all verified models to {self.gguf_db_dir}...&#34;)
+                models = vmdb.models
+            else:
+                print(f&#34;Importing a verified model matching {name_search} {quantization_search} {keywords_search} to {self.gguf_db_dir}...&#34;)
+                models = [vmdb.find_model(name_search, quantization_search, keywords_search)]
+            for model in models:
+                if copy_gguf and model.is_downloaded():
+                    source_file = model.gguf_file_path
+                    target_file = model.gguf_file_path.replace(vmdb.gguf_db_dir, self.gguf_db_dir)
+                    print(f&#34;Copying {source_file} to {target_file}...&#34;)
+                    copy_large_file(source_file, target_file)
+                model.set_save_dir(self.gguf_db_dir)
+                model.save_json()
             self.load_models()
 
     def list_available_models(self) -&gt; list[str]:
@@ -530,7 +554,7 @@ and interfacing with HuggingFace to import models.</p>
 </details>
 </dd>
 <dt id="gguf_modeldb.ModelDB.find_model"><code class="name flex">
-<span>def <span class="ident">find_model</span></span>(<span>self, name_query: Optional[str] = None, quantization_query: Optional[str] = None, keywords_query: Optional[str] = None) ‑> Optional[<a title="gguf_modeldb.model_data.ModelData" href="model_data.html#gguf_modeldb.model_data.ModelData">ModelData</a>]</span>
+<span>def <span class="ident">find_model</span></span>(<span>self, name_query: Optional[str] = None, quantization_query: Optional[str] = None, keywords_query: Optional[str] = None, only_downloaded: bool = False) ‑> Optional[<a title="gguf_modeldb.model_data.ModelData" href="model_data.html#gguf_modeldb.model_data.ModelData">ModelData</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Find top matching model based on queries.</p>
@@ -555,6 +579,7 @@ and interfacing with HuggingFace to import models.</p>
 <pre><code class="python">def find_model(self, name_query:Optional[str]=None, 
                quantization_query:Optional[str]=None, 
                keywords_query:Optional[str]=None,
+               only_downloaded:bool=False
                ) -&gt; Optional[ModelData]:
     &#34;&#34;&#34;Find top matching model based on queries.
 
@@ -566,7 +591,7 @@ and interfacing with HuggingFace to import models.</p>
     Returns:
         Optional[ModelData]: Top matching ModelData object or None
     &#34;&#34;&#34;
-    sorted_models = self.find_models(name_query, quantization_query, keywords_query)
+    sorted_models = self.find_models(name_query, quantization_query, keywords_query, only_downloaded=only_downloaded)
     if sorted_models is None or len(sorted_models) == 0:
         if len(self.models) == 0:
             print(f&#34;There were no models to be searched. Try importing a verified model or using the defualt db dir.&#34;)
@@ -578,7 +603,7 @@ and interfacing with HuggingFace to import models.</p>
 </details>
 </dd>
 <dt id="gguf_modeldb.ModelDB.find_models"><code class="name flex">
-<span>def <span class="ident">find_models</span></span>(<span>self, name_query: Optional[str] = None, quantization_query: Optional[str] = None, keywords_query: Optional[str] = None, treshold: float = 0.6) ‑> Optional[None]</span>
+<span>def <span class="ident">find_models</span></span>(<span>self, name_query: Optional[str] = None, quantization_query: Optional[str] = None, keywords_query: Optional[str] = None, treshold: float = 0.6, only_downloaded: bool = False) ‑> Optional[None]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Search for models based on name, quantization, and keywords.</p>
@@ -591,7 +616,7 @@ and interfacing with HuggingFace to import models.</p>
 <dt><strong><code>keywords_query</code></strong> :&ensp;<code>str</code>, optional</dt>
 <dd>Search query for keywords</dd>
 <dt><strong><code>treshold</code></strong> :&ensp;<code>float</code>, optional</dt>
-<dd>Minimum score threshold. Defaults to 0.6.</dd>
+<dd>Minimum similarity score threshold. Defaults to 0.6.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -606,14 +631,15 @@ or None if no query provided</dd>
 <pre><code class="python">def find_models(self, name_query:Optional[str]=None, 
                quantization_query:Optional[str]=None, 
                keywords_query:Optional[str]=None,
-               treshold:float=0.6) -&gt; Union[None, list]:
+               treshold:float=0.6,
+               only_downloaded:bool=False) -&gt; Union[None, list]:
     &#34;&#34;&#34;Search for models based on name, quantization, and keywords.
 
     Args:
         name_query (str, optional): Search query for name
         quantization_query (str, optional): Search query for quantization 
         keywords_query (str, optional): Search query for keywords
-        treshold (float, optional): Minimum score threshold. Defaults to 0.6.
+        treshold (float, optional): Minimum similarity score threshold. Defaults to 0.6.
 
     Returns:
         Union[None, list]: Sorted list of models exceeding threshold,
@@ -660,9 +686,46 @@ or None if no query provided</dd>
     sorted_models = sorted(scoring_models_dict.items(), key=lambda x: x[1][&#34;score&#34;], reverse=True)
     #keep just the list of model data
     sorted_models = [x[1][&#34;model&#34;] for x in sorted_models]
+    if only_downloaded:
+        sorted_models = [x for x in sorted_models if x.is_downloaded()]
     #print(f&#34;Found {len(sorted_models)} models.&#34;)
     #print(sorted_models)
     return sorted_models</code></pre>
+</details>
+</dd>
+<dt id="gguf_modeldb.ModelDB.get_model_by_gguf_path"><code class="name flex">
+<span>def <span class="ident">get_model_by_gguf_path</span></span>(<span>self, gguf_path: str) ‑> Optional[<a title="gguf_modeldb.model_data.ModelData" href="model_data.html#gguf_modeldb.model_data.ModelData">ModelData</a>]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get ModelData by exact ggUF path match.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>gguf_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>ggUF path</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Optional[<a title="gguf_modeldb.ModelData" href="#gguf_modeldb.ModelData">ModelData</a>]</code></dt>
+<dd>Matching ModelData or None if not found</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_model_by_gguf_path(self, gguf_path:str) -&gt; Optional[ModelData]:
+    &#34;&#34;&#34;Get ModelData by exact ggUF path match.
+
+    Args:
+        gguf_path (str): ggUF path
+
+    Returns:
+        Optional[ModelData]: Matching ModelData or None if not found
+    &#34;&#34;&#34;
+    for model in self.models:
+        model:ModelData = model
+        if model.gguf_file_path == gguf_path:
+            return model
+    return None</code></pre>
 </details>
 </dd>
 <dt id="gguf_modeldb.ModelDB.get_model_by_url"><code class="name flex">
@@ -792,15 +855,20 @@ Models inlcude official dolphin, mistral, mixtral, solar and zephyr models in al
         print(&#34;Cannot import verified model to the default database directory. All models should be already available here.&#34;)
     else:
         vmdb = ModelDB()
-        model = vmdb.find_model(name_search, quantization_search, keywords_search)
-        if copy_gguf and model.is_downloaded():
-            source_file = model.gguf_file_path
-            target_file = model.gguf_file_path.replace(vmdb.gguf_db_dir, self.gguf_db_dir)
-            print(f&#34;Copying {source_file} to {target_file}...&#34;)
-            copy_large_file(source_file, target_file)
-
-        model.set_save_dir(self.gguf_db_dir)
-        model.save_json()
+        if name_search is None and quantization_search is None and keywords_search is None:
+            print(f&#34;Importing all verified models to {self.gguf_db_dir}...&#34;)
+            models = vmdb.models
+        else:
+            print(f&#34;Importing a verified model matching {name_search} {quantization_search} {keywords_search} to {self.gguf_db_dir}...&#34;)
+            models = [vmdb.find_model(name_search, quantization_search, keywords_search)]
+        for model in models:
+            if copy_gguf and model.is_downloaded():
+                source_file = model.gguf_file_path
+                target_file = model.gguf_file_path.replace(vmdb.gguf_db_dir, self.gguf_db_dir)
+                print(f&#34;Copying {source_file} to {target_file}...&#34;)
+                copy_large_file(source_file, target_file)
+            model.set_save_dir(self.gguf_db_dir)
+            model.save_json()
         self.load_models()</code></pre>
 </details>
 </dd>
@@ -2512,6 +2580,7 @@ def from_url(url:str, save_dir:str, user_tags:Union[dict, list, set] = (&#34;&#3
 <li><code><a title="gguf_modeldb.ModelDB.add_model_data" href="#gguf_modeldb.ModelDB.add_model_data">add_model_data</a></code></li>
 <li><code><a title="gguf_modeldb.ModelDB.find_model" href="#gguf_modeldb.ModelDB.find_model">find_model</a></code></li>
 <li><code><a title="gguf_modeldb.ModelDB.find_models" href="#gguf_modeldb.ModelDB.find_models">find_models</a></code></li>
+<li><code><a title="gguf_modeldb.ModelDB.get_model_by_gguf_path" href="#gguf_modeldb.ModelDB.get_model_by_gguf_path">get_model_by_gguf_path</a></code></li>
 <li><code><a title="gguf_modeldb.ModelDB.get_model_by_url" href="#gguf_modeldb.ModelDB.get_model_by_url">get_model_by_url</a></code></li>
 <li><code><a title="gguf_modeldb.ModelDB.import_models_from_repo" href="#gguf_modeldb.ModelDB.import_models_from_repo">import_models_from_repo</a></code></li>
 <li><code><a title="gguf_modeldb.ModelDB.import_verified_model" href="#gguf_modeldb.ModelDB.import_verified_model">import_verified_model</a></code></li>
