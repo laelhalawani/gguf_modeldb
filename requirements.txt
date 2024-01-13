@@ -1,6 +1,6 @@
 requests>=2.31.0,
 beautifulsoup4>=4.9.3
-util_helper==0.0.4
+util_helper==0.0.5
 
 
     
